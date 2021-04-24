@@ -11,12 +11,14 @@ namespace JobPostingProject.Controllers
     {
         JobPostingDBEntities1 db = new JobPostingDBEntities1();
         // GET: Announcement
-        public ActionResult Index()
+        public ActionResult Index(FormCollection collection)
         {
-            ViewBag.title = Request.Params["titleInput"];
-            ViewBag.location = Request.Params["locationInput"];
+            //string title = Request.Unvalidated.Form["titleInput"].ToString();
+            //string location = Request.Unvalidated.Form["locationInput"].ToString();
+            string title = collection["titleInput"];
+            string location = collection["locationInput"];
             ViewBag.Levels = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
-            List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Equals(Request.Params["titleInput"]) && announcement.Location.Equals(Request.Params["locationInput"])).ToList();
+            List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Equals(title) && announcement.Location.Equals(location)).ToList();
             return View(listAnnouncements);
         }
 
