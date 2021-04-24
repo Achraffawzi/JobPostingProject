@@ -13,10 +13,10 @@ namespace JobPostingProject.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class JobPostingDBEntities : DbContext
+    public partial class JobPostingDBEntities1 : DbContext
     {
-        public JobPostingDBEntities()
-            : base("name=JobPostingDBEntities")
+        public JobPostingDBEntities1()
+            : base("name=JobPostingDBEntities1")
         {
         }
     
@@ -26,11 +26,11 @@ namespace JobPostingProject.Models
         }
     
         public virtual DbSet<Announcement> Announcements { get; set; }
+        public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Application> Applications { get; set; }
     }
 }

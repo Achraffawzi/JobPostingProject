@@ -17,7 +17,6 @@ namespace JobPostingProject.Models
         public int CandidateID { get; set; }
         public int AnnouncementID { get; set; }
         public System.DateTime ApplicationDate { get; set; }
-        public string CoverLetter { get; set; }
     
         public virtual Announcement Announcement { get; set; }
         public virtual Candidate Candidate { get; set; }

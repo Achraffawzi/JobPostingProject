@@ -7,29 +7,25 @@
       <Schema Namespace="JobPostingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Announcement">
           <Key>
-            <PropertyRef Name="IDAnnouncement" />
+            <PropertyRef Name="AnnouncementID" />
           </Key>
-          <Property Name="IDAnnouncement" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnnouncementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="PublicationDate" Type="datetime" Nullable="false" />
           <Property Name="Location" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="IDLevel" Type="int" Nullable="false" />
-          <Property Name="IDCompany" Type="int" Nullable="false" />
-          <Property Name="IDJobCat" Type="int" Nullable="false" />
+          <Property Name="LevelID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="Application">
           <Key>
             <PropertyRef Name="CandidateID" />
             <PropertyRef Name="AnnouncementID" />
-            <PropertyRef Name="ApplicationDate" />
           </Key>
           <Property Name="CandidateID" Type="int" Nullable="false" />
           <Property Name="AnnouncementID" Type="int" Nullable="false" />
           <Property Name="ApplicationDate" Type="datetime" Nullable="false" />
-          <Property Name="CoverLetter" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Candidate">
           <Key>
@@ -46,6 +42,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
           <Property Name="Email" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Cv" Type="varchar(max)" />
+          <Property Name="CoverLetter" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -95,7 +92,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDCompany" />
+              <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -109,7 +106,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDJobCat" />
+              <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -123,7 +120,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="LevelID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDLevel" />
+              <PropertyRef Name="LevelID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -134,7 +131,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
           <End Role="Application" Type="Self.Application" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Announcement">
-              <PropertyRef Name="IDAnnouncement" />
+              <PropertyRef Name="AnnouncementID" />
             </Principal>
             <Dependent Role="Application">
               <PropertyRef Name="AnnouncementID" />
@@ -157,19 +154,12 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
         </Association>
         <EntityContainer Name="JobPostingDBModelStoreContainer">
           <EntitySet Name="Announcement" EntityType="Self.Announcement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Candidate" EntityType="Self.Candidate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Application" EntityType="Self.Application" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Application].[CandidateID] AS [CandidateID], 
-    [Application].[AnnouncementID] AS [AnnouncementID], 
-    [Application].[ApplicationDate] AS [ApplicationDate], 
-    [Application].[CoverLetter] AS [CoverLetter]
-    FROM [dbo].[Application] AS [Application]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Announcement_Company" Association="Self.FK_Announcement_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Announcement" EntitySet="Announcement" />
@@ -198,20 +188,31 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
       <Schema Namespace="JobPostingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Announcement">
           <Key>
-            <PropertyRef Name="IDAnnouncement" />
+            <PropertyRef Name="AnnouncementID" />
           </Key>
-          <Property Name="IDAnnouncement" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnnouncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IDLevel" Type="Int32" Nullable="false" />
-          <Property Name="IDCompany" Type="Int32" Nullable="false" />
-          <Property Name="IDJobCat" Type="Int32" Nullable="false" />
+          <Property Name="LevelID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Announcement_Company" FromRole="Announcement" ToRole="Company" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Announcement_JobCategory" FromRole="Announcement" ToRole="Category" />
           <NavigationProperty Name="Level" Relationship="Self.FK_Announcement_Level" FromRole="Announcement" ToRole="Level" />
           <NavigationProperty Name="Applications" Relationship="Self.FK_Application_Announcement" FromRole="Announcement" ToRole="Application" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="CandidateID" />
+            <PropertyRef Name="AnnouncementID" />
+          </Key>
+          <Property Name="CandidateID" Type="Int32" Nullable="false" />
+          <Property Name="AnnouncementID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Announcement" Relationship="Self.FK_Application_Announcement" FromRole="Application" ToRole="Announcement" />
+          <NavigationProperty Name="Candidate" Relationship="Self.FK_Application_Candidate" FromRole="Application" ToRole="Candidate" />
         </EntityType>
         <EntityType Name="Candidate">
           <Key>
@@ -228,6 +229,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Cv" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CoverLetter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Applications" Relationship="Self.FK_Application_Candidate" FromRole="Candidate" ToRole="Application" />
         </EntityType>
         <EntityType Name="Category">
@@ -271,19 +273,6 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Application">
-          <Key>
-            <PropertyRef Name="CandidateID" />
-            <PropertyRef Name="AnnouncementID" />
-            <PropertyRef Name="ApplicationDate" />
-          </Key>
-          <Property Name="CandidateID" Type="Int32" Nullable="false" />
-          <Property Name="AnnouncementID" Type="Int32" Nullable="false" />
-          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CoverLetter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Announcement" Relationship="Self.FK_Application_Announcement" FromRole="Application" ToRole="Announcement" />
-          <NavigationProperty Name="Candidate" Relationship="Self.FK_Application_Candidate" FromRole="Application" ToRole="Candidate" />
-        </EntityType>
         <Association Name="FK_Announcement_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -294,7 +283,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDCompany" />
+              <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -308,7 +297,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDJobCat" />
+              <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -322,7 +311,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
               <PropertyRef Name="LevelID" />
             </Principal>
             <Dependent Role="Announcement">
-              <PropertyRef Name="IDLevel" />
+              <PropertyRef Name="LevelID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -333,7 +322,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
           <End Role="Application" Type="Self.Application" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Announcement">
-              <PropertyRef Name="IDAnnouncement" />
+              <PropertyRef Name="AnnouncementID" />
             </Principal>
             <Dependent Role="Application">
               <PropertyRef Name="AnnouncementID" />
@@ -354,14 +343,14 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="JobPostingDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="JobPostingDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Announcements" EntityType="Self.Announcement" />
+          <EntitySet Name="Applications" EntityType="Self.Application" />
           <EntitySet Name="Candidates" EntityType="Self.Candidate" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Companies" EntityType="Self.Company" />
           <EntitySet Name="Levels" EntityType="Self.Level" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Applications" EntityType="Self.Application" />
           <AssociationSet Name="FK_Announcement_Company" Association="Self.FK_Announcement_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="Announcement" EntitySet="Announcements" />
@@ -388,18 +377,27 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="JobPostingDBModelStoreContainer" CdmEntityContainer="JobPostingDBEntities">
+        <EntityContainerMapping StorageEntityContainer="JobPostingDBModelStoreContainer" CdmEntityContainer="JobPostingDBEntities1">
           <EntitySetMapping Name="Announcements">
             <EntityTypeMapping TypeName="JobPostingDBModel.Announcement">
               <MappingFragment StoreEntitySet="Announcement">
-                <ScalarProperty Name="IDAnnouncement" ColumnName="IDAnnouncement" />
+                <ScalarProperty Name="AnnouncementID" ColumnName="AnnouncementID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PublicationDate" ColumnName="PublicationDate" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="IDLevel" ColumnName="IDLevel" />
-                <ScalarProperty Name="IDCompany" ColumnName="IDCompany" />
-                <ScalarProperty Name="IDJobCat" ColumnName="IDJobCat" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="JobPostingDBModel.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
+                <ScalarProperty Name="AnnouncementID" ColumnName="AnnouncementID" />
+                <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -417,6 +415,7 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Cv" ColumnName="Cv" />
+                <ScalarProperty Name="CoverLetter" ColumnName="CoverLetter" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -459,16 +458,6 @@ avertissement 6002: La table/vue 'JobPostingDB.dbo.Application' n'a pas de clé 
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Applications">
-            <EntityTypeMapping TypeName="JobPostingDBModel.Application">
-              <MappingFragment StoreEntitySet="Application">
-                <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
-                <ScalarProperty Name="AnnouncementID" ColumnName="AnnouncementID" />
-                <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
-                <ScalarProperty Name="CoverLetter" ColumnName="CoverLetter" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
