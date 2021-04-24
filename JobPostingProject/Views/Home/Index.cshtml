@@ -3,31 +3,29 @@
 }
 
 <!-- search form -->
-<form action="">
-    <div class="row">
+<form action="Announcement/Index" method="POST">
+    <div class="d-flex align-items-center row">
         <div class="col-lg-5">
             <div class="title">
                 <i class="fas fa-search mr-2"></i>
-                <input type="text" class="title__input" placeholder="Job Title" />
+                <input type="text" name="titleInput" class="title__input" placeholder="Job Title" />
             </div>
         </div>
         <div class="col-lg-5">
             <div class="city">
                 <i class="fas fa-map-marker-alt mr-2"></i>
-                <input type="text" class="city__input" placeholder="City" />
+                <input type="text" name="cityInput" class="city__input" placeholder="Location" />
             </div>
         </div>
         <div class="col-lg-2">
             <div class="search">
-                <button class="btn btn-primary search__button">
-                    @Html.ActionLink("Search", "Index", "Annoucement", new { @class = "text-white text-decoration-none" })
-                </button>
+                    @Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })
             </div>
         </div>
     </div>
     <p class="text-center mt-4">
         You're a company?
-        @Html.ActionLink("Create announcement", "Create", "Annoucement", new { @class = "text-primary text-decoration-none" })
+        @Html.ActionLink("Create announcement", "Create", "Announcement", null, new { @class = "text-primary text-decoration-none" })
     </p>
 </form>
 
