@@ -1,13 +1,15 @@
-﻿
+﻿* {
+    font-family: sans-serif;
+}
 /* Form */
 form {
     width: 1000px;
     max-width: 90vw;
-    margin: 80px auto;
+    margin: 80px auto 0;
 }
 
 .title, .city {
-    border: 1px solid #bdbdbd;
+    border: 1px solid #ced4da;
     padding: 0 10px;
     border-radius: 6px;
     display: flex;

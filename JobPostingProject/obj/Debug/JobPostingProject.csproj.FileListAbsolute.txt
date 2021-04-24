@@ -124,3 +124,4 @@ C:\Users\hewlettpackard\Desktop\JobPostingProject\JobPostingProject\obj\Debug\Jo
 C:\Users\hewlettpackard\Desktop\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.csproj.CopyComplete
 C:\Users\hewlettpackard\Desktop\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.dll
 C:\Users\hewlettpackard\Desktop\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.pdb
+C:\Users\hewlettpackard\Desktop\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.csprojAssemblyReference.cache
