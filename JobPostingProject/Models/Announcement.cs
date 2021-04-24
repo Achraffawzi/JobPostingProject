@@ -20,14 +20,14 @@ namespace JobPostingProject.Models
             this.Applications = new HashSet<Application>();
         }
     
-        public int IDAnnouncement { get; set; }
+        public int AnnouncementID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public System.DateTime PublicationDate { get; set; }
         public string Location { get; set; }
-        public int IDLevel { get; set; }
-        public int IDCompany { get; set; }
-        public int IDJobCat { get; set; }
+        public int LevelID { get; set; }
+        public int CompanyID { get; set; }
+        public int CategoryID { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Category Category { get; set; }

@@ -1,0 +1,36 @@
+﻿
+/* Form */
+form {
+    width: 1000px;
+    max-width: 90vw;
+    margin: 80px auto;
+}
+
+.title, .city {
+    border: 1px solid #bdbdbd;
+    padding: 0 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.title__input, .city__input {
+    border: none;
+    outline: none;
+    padding: 10px 0;
+    flex: 1;
+}
+
+@media only screen and (max-width: 991px) {
+    .title, .city {
+        margin-bottom: 20px;
+    }
+}
+
+.search__button {
+    padding: 10px 20px;
+}
+
+.fas {
+    color: #5672ff;
+}

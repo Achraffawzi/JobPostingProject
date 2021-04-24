@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JobPostingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Announcement">
+    <Key>
+      <PropertyRef Name="AnnouncementID" />
+    </Key>
+    <Property Name="AnnouncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LevelID" Type="Int32" Nullable="false" />
+    <Property Name="CompanyID" Type="Int32" Nullable="false" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Announcement_Company" FromRole="Announcement" ToRole="Company" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Announcement_JobCategory" FromRole="Announcement" ToRole="Category" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Announcement_Level" FromRole="Announcement" ToRole="Level" />
+    <NavigationProperty Name="Applications" Relationship="Self.FK_Application_Announcement" FromRole="Announcement" ToRole="Application" />
+  </EntityType>
+  <EntityType Name="Application">
+    <Key>
+      <PropertyRef Name="CandidateID" />
+      <PropertyRef Name="AnnouncementID" />
+    </Key>
+    <Property Name="CandidateID" Type="Int32" Nullable="false" />
+    <Property Name="AnnouncementID" Type="Int32" Nullable="false" />
+    <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Announcement" Relationship="Self.FK_Application_Announcement" FromRole="Application" ToRole="Announcement" />
+    <NavigationProperty Name="Candidate" Relationship="Self.FK_Application_Candidate" FromRole="Application" ToRole="Candidate" />
+  </EntityType>
+  <EntityType Name="Candidate">
+    <Key>
+      <PropertyRef Name="CandidateID" />
+    </Key>
+    <Property Name="CandidateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cv" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CoverLetter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Applications" Relationship="Self.FK_Application_Candidate" FromRole="Candidate" ToRole="Application" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Announcements" Relationship="Self.FK_Announcement_JobCategory" FromRole="Category" ToRole="Announcement" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Announcements" Relationship="Self.FK_Announcement_Company" FromRole="Company" ToRole="Announcement" />
+  </EntityType>
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="LevelID" />
+    </Key>
+    <Property Name="LevelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Announcements" Relationship="Self.FK_Announcement_Level" FromRole="Level" ToRole="Announcement" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Announcement_Company">
+    <End Role="Company" Type="Self.Company" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="Announcement">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Announcement_JobCategory">
+    <End Role="Category" Type="Self.Category" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Announcement">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Announcement_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="LevelID" />
+      </Principal>
+      <Dependent Role="Announcement">
+        <PropertyRef Name="LevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Application_Announcement">
+    <End Role="Announcement" Type="Self.Announcement" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Application" Type="Self.Application" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Announcement">
+        <PropertyRef Name="AnnouncementID" />
+      </Principal>
+      <Dependent Role="Application">
+        <PropertyRef Name="AnnouncementID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Application_Candidate">
+    <End Role="Candidate" Type="Self.Candidate" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Application" Type="Self.Application" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Candidate">
+        <PropertyRef Name="CandidateID" />
+      </Principal>
+      <Dependent Role="Application">
+        <PropertyRef Name="CandidateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JobPostingDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Announcements" EntityType="Self.Announcement" />
+    <EntitySet Name="Applications" EntityType="Self.Application" />
+    <EntitySet Name="Candidates" EntityType="Self.Candidate" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Companies" EntityType="Self.Company" />
+    <EntitySet Name="Levels" EntityType="Self.Level" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Announcement_Company" Association="Self.FK_Announcement_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Announcement" EntitySet="Announcements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Announcement_JobCategory" Association="Self.FK_Announcement_JobCategory">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Announcement" EntitySet="Announcements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Announcement_Level" Association="Self.FK_Announcement_Level">
+      <End Role="Level" EntitySet="Levels" />
+      <End Role="Announcement" EntitySet="Announcements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Application_Announcement" Association="Self.FK_Application_Announcement">
+      <End Role="Announcement" EntitySet="Announcements" />
+      <End Role="Application" EntitySet="Applications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Application_Candidate" Association="Self.FK_Application_Candidate">
+      <End Role="Candidate" EntitySet="Candidates" />
+      <End Role="Application" EntitySet="Applications" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
