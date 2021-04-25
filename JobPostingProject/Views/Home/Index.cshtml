@@ -3,7 +3,7 @@
 }
 
 <!-- search form -->
-@using (Html.BeginForm("Index", "Announcement", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
 {
     @*@Html.AntiForgeryToken()*@
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -14,12 +14,6 @@
                 @Html.TextBox("titleInput", null, new { @class = "form-control title__input", placeholder = "Job Title" })
             </div>
         </div>
-        @*<div class="col-lg-5">
-            <div class="title">
-                <i class="fas fa-search mr-2"></i>
-                <input type="text" name="titleInput" class="title__input" placeholder="Job Title" />
-            </div>
-        </div>*@
         <div class="col-lg-5">
             <div class="city">
                 <i class="fas fa-map-marker-alt mr-2"></i>
@@ -28,7 +22,8 @@
         </div>
         <div class="col-lg-2">
             <div class="search">
-                @Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })
+                <input type="submit" value="Search" class="text-white text-decoration-none btn bg-primary search__button" />
+                @*@Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })*@
             </div>
         </div>
     </div>
@@ -37,32 +32,7 @@
         @Html.ActionLink("Create announcement", "Create", "Announcement", null, new { @class = "text-primary text-decoration-none" })
     </p>
 }
-@*<form action=@Url.Content("~/Announcement/Index") method="POST">
-    <div class="d-flex align-items-center row">
-        <div class="col-lg-5">
-            <div class="title">
-                <i class="fas fa-search mr-2"></i>
-                <input type="text" name="titleInput" class="title__input" placeholder="Job Title" />
-            </div>
-        </div>
-        <div class="col-lg-5">
-            <div class="city">
-                <i class="fas fa-map-marker-alt mr-2"></i>
-                <input type="text" name="locationInput" class="city__input" placeholder="Location" />
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="search">
-                @Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })
-            </div>
-        </div>
-    </div>
-    <p class="text-center mt-4">
-        You're a company?
-        @Html.ActionLink("Create announcement", "Create", "Announcement", null, new { @class = "text-primary text-decoration-none" })
-    </p>
-</form>*@
 
 @section Home {
     <link href="@Url.Content("~/Content/Home.css")" rel="stylesheet" type="text/css" />
-}
+    }
