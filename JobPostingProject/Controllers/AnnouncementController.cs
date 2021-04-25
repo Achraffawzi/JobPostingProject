@@ -11,13 +11,35 @@ namespace JobPostingProject.Controllers
     {
         JobPostingDBEntities1 db = new JobPostingDBEntities1();
         // GET: Announcement
-        public ActionResult Index()
+        public ActionResult Index(string titleInput, string cityInput, DateTime? date, int? Levels)
         {
-            ViewBag.title = Request.Params["titleInput"];
-            ViewBag.location = Request.Params["locationInput"];
             ViewBag.Levels = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
-            List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Equals(Request.Params["titleInput"]) && announcement.Location.Equals(Request.Params["locationInput"])).ToList();
-            return View(listAnnouncements);
+
+            ViewBag.Job = titleInput;
+            ViewBag.City = cityInput;
+
+            if (date == null && Levels == null)
+            {
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)).ToList();
+                return View(listAnnouncements);
+            }
+            else if (date != null)
+            {
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput) && announcement.PublicationDate == date).ToList();
+                return View(listAnnouncements);
+            }
+            else if (Levels != null)
+            {
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)) && announcement.LevelID == Levels).ToList();
+                return View(listAnnouncements);
+            }
+            else
+            {
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)) && announcement.PublicationDate == date || announcement.LevelID == Levels).ToList();
+                return View(listAnnouncements);
+            }
+
+
         }
 
         //[HttpGet]

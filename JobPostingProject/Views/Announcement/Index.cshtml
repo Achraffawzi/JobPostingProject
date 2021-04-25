@@ -6,23 +6,25 @@
 
 <h1>Announcementttt</h1>
 
-<form action="" class="mb-5">
+@using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
+{
     <div class="row">
         <div class="col-lg-3">
             <div class="title">
                 <i class="fas fa-search mr-2"></i>
-                <input type="text" class="title__input form-control" placeholder="Job Title" value="@ViewBag.title" />
+                <input type="text" name="titleInput" class="title__input form-control" placeholder="Job Title" value="@ViewBag.Job" />
             </div>
         </div>
         <div class="col-lg-3">
             <div class="city">
                 <i class="fas fa-map-marker-alt mr-2"></i>
-                <input type="text" class="city__input form-control" placeholder="Location" value="@ViewBag.location" />
+                <input type="text" name="cityInput" class="city__input form-control" placeholder="Location" value="@ViewBag.City" />
             </div>
         </div>
         <div class="col-lg-2">
             <div class="search">
-                @Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn btn-primary search__button" })
+                <input type="submit" class = "text-white text-decoration-none btn btn-primary search__button"/>
+                @*@Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn btn-primary search__button" })*@
             </div>
         </div>
     </div>
@@ -30,7 +32,7 @@
         <div class="col-lg-3">
             <div class="date">
                 @*<i class="fas fa-search mr-2"></i>*@
-                <input type="date" class="title__input form-control" style="border: 1px solid #ced4da" />
+                <input type="date" name="date" class="title__input form-control" style="border: 1px solid #ced4da" />
             </div>
         </div>
         <div class="col-lg-3">
@@ -39,7 +41,10 @@
             </div>
         </div>
     </div>
-</form>
+}
+
+
+
 
 <!--list of all jobs searched for-->
 <div class="container">

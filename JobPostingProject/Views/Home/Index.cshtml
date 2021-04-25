@@ -3,7 +3,8 @@
 }
 
 <!-- search form -->
-<form action="Announcement/Index" method="POST">
+@using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
+{
     <div class="d-flex align-items-center row">
         <div class="col-lg-5">
             <div class="title">
@@ -19,7 +20,8 @@
         </div>
         <div class="col-lg-2">
             <div class="search">
-                    @Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })
+                <input type="submit" value="Search" class="text-white text-decoration-none btn bg-primary search__button" />
+                @*@Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })*@
             </div>
         </div>
     </div>
@@ -27,7 +29,10 @@
         You're a company?
         @Html.ActionLink("Create announcement", "Create", "Announcement", null, new { @class = "text-primary text-decoration-none" })
     </p>
-</form>
+}
+
+
+
 
 @section Home {
     <link href="@Url.Content("~/Content/Home.css")" rel="stylesheet" type="text/css" />
