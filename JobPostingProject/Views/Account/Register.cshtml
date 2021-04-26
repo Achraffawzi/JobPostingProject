@@ -33,7 +33,7 @@
 
             <div class="col-md">
                 <input type="date" class="form-control" name="DateOfBirth" />
-                @Html.ValidationMessage("DateOfBirth", "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md">
@@ -73,14 +73,14 @@
     <div class="form-group ">
         @Html.LabelFor(m => m.Photo, new { @class = "col-md control-label" })
         <div class="col-md-6">
-            <input type="file" class="form-control" name="PhotoFile" required />
+            <input type="file" class="form-control" name="PhotoFileName" />
             @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group ">
         @Html.LabelFor(m => m.CV, new { @class = "col-md control-label" })
         <div class="col-md-6">
-            <input type="file" class="form-control" name="CvFile" required />
+            <input type="file" class="form-control" name="CvFileName" />
             @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
         </div>
     </div>
@@ -88,7 +88,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.CoverLetter, new { @class = "col-md-2 control-label" })
         <div class="col-md-6">
-            <input type="file" class="form-control" name="CoverLettreFile" required />
+            <input type="file" class="form-control" name="CoverLetterFileName" />
             @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
         </div>
     </div>
@@ -111,12 +111,13 @@
             <input type="submit" class="btn btn-primary" value="Register" />
         </div>
     </div>
-    <div class="form-group mt-2">
-        <div class="col-md-offset-2 col-md-10">
-          <span>Are you a company?</span>  <a href="@Url.Content("~/Account/RegisterCompany")" class="text-primary">Register Here</a>
-        </div>
-    </div>
 }
+
+<div class="form-group mt-2">
+    <div class="col-md-offset-2 col-md-10">
+        <span>Are you a company?</span>  <a href="@Url.Content("~/Account/RegisterCompany")" class="text-primary">Register Here</a>
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

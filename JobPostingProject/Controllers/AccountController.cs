@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JobPostingProject.Models;
+using System.IO;
 
 namespace JobPostingProject.Controllers
 {
@@ -189,10 +190,30 @@ namespace JobPostingProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModelCandidate model)
         {
+            string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
+            string cvFileExtension  = Path.GetExtension(model.CvFileName.FileName);
+            string _cvFileName = cvFileName + cvFileExtension;
+            model.CV = "~/Cvs/" + _cvFileName;
+            _cvFileName = Path.Combine(Server.MapPath("~/Cvs/"), _cvFileName);
+
+            string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
+            string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
+            string _photoFileName = photoFileName + photoFileExtension;
+            model.CV = "~/Cvs/" + _photoFileName;
+            _photoFileName = Path.Combine(Server.MapPath("~/Cvs/"), _photoFileName);
+
+            string coverLetterFileName = Path.GetFileNameWithoutExtension(model.CoverLetterFileName.FileName);
+            string coverLetterFileExtension = Path.GetExtension(model.CoverLetterFileName.FileName);
+            string _coverLetterFileName = coverLetterFileName + coverLetterFileExtension;
+            model.CV = "~/Cvs/" + _coverLetterFileName;
+            _coverLetterFileName = Path.Combine(Server.MapPath("~/Cvs/"), _coverLetterFileName);
+
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-               
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -203,6 +224,7 @@ namespace JobPostingProject.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
+
 
                     return RedirectToAction("Index", "Home");
                 }

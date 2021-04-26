@@ -173,11 +173,21 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnnouncementController.cs" />
+    <Compile Include="Controllers\ApplicationBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104261446291_InitialCreate.cs" />
+    <Compile Include="Migrations\202104261446291_InitialCreate.Designer.cs">
+      <DependentUpon>202104261446291_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104261525349_Edit_Aspnetuser.cs" />
+    <Compile Include="Migrations\202104261525349_Edit_Aspnetuser.Designer.cs">
+      <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
@@ -403,6 +413,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Cvs\" />
+    <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -415,6 +427,14 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202104261446291_InitialCreate.resx">
+      <DependentUpon>202104261446291_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104261525349_Edit_Aspnetuser.resx">
+      <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace JobPostingProject.Models
 {
@@ -92,15 +93,15 @@ namespace JobPostingProject.Models
         [Display(Name = "Bio")]
         public string Bio { get; set; }
 
-        [Required(ErrorMessage = "{0} is required")]
+        //[Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Photo")]
         public string Photo { get; set; }
 
-        [Required(ErrorMessage = "{0} is required")]
+        //[Required(ErrorMessage = "{0} is required")]
         [Display(Name = "CV")]
         public string CV { get; set; }
 
-        [Required(ErrorMessage = "{0} is required")]
+        //[Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Cover Letter")]
         public string CoverLetter { get; set; }
 
@@ -120,6 +121,10 @@ namespace JobPostingProject.Models
         [Display(Name = "Confirm Password ")]
         [Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
+
+        public HttpPostedFileBase CvFileName { get; set; }
+        public HttpPostedFileBase CoverLetterFileName { get; set; }
+        public HttpPostedFileBase PhotoFileName { get; set; }
     }
 
    
