@@ -8,8 +8,8 @@
 
 @using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
 {
-    <div class="row">
-        <div class="col-lg-3">
+    <div class="row mb-3">
+        <div class="col-lg-3 ">
             <div class="title">
                 <i class="fas fa-search mr-2"></i>
                 <input type="text" name="titleInput" class="title__input form-control" placeholder="Job Title" value="@ViewBag.Job" />

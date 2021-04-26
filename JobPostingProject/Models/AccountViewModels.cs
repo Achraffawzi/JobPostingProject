@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace JobPostingProject.Models
@@ -62,22 +63,109 @@ namespace JobPostingProject.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+
+    public class RegisterViewModelCandidate
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Courrier électronique")]
+        //-------------- Candidate ---------------
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Date of birth")]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Adresse")]
+        public string Adresse { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Phone Number")]
+        [RegularExpression("^[0-9]{10,}$",ErrorMessage ="Invalid phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Bio")]
+        public string Bio { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Photo")]
+        public string Photo { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "CV")]
+        public string CV { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Cover Letter")]
+        public string CoverLetter { get; set; }
+
+
+        [Required(ErrorMessage = "{0} is required")]
+        [EmailAddress(ErrorMessage ="Invalid Email")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "La chaîne {0} doit comporter au moins {2} caractères.", MinimumLength = 6)]
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = "{0} must have at less {2} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Mot de passe")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmer le mot de passe ")]
-        [Compare("Password", ErrorMessage = "Le mot de passe et le mot de passe de confirmation ne correspondent pas.")]
+        [Display(Name = "Confirm Password ")]
+        [Compare("Password", ErrorMessage = "Password not match")]
+        public string ConfirmPassword { get; set; }
+    }
+
+   
+
+    public class RegisterViewModelCompany
+    {
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Phone Number")]
+        [RegularExpression("^[0-9]{10,15}$",ErrorMessage ="Invalid Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Logo is required")]
+        [Display(Name = "Logo")]
+        public string Logo { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Adresse")]
+        public string Adresse { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = " {0} must have at less {2} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirme Password")]
+        [Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
     }
 
