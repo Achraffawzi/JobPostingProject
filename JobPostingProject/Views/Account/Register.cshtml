@@ -1,6 +1,6 @@
-﻿@model JobPostingProject.Models.RegisterViewModel
+﻿@model JobPostingProject.Models.RegisterViewModelCandidate
 @{
-    ViewBag.Title = "S'inscrire";
+    ViewBag.Title = "Register as Candidate";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -10,28 +10,110 @@
     @Html.AntiForgeryToken()
     <h4>Créez un nouveau compte.</h4>
     <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+    @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+    <div class="row mt-5">
+        <div class="form-group col-md">
+
+            <div class="col-md">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Fist Name" })
+                @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md">
+
+            <div class="col-md">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-md">
+
+            <div class="col-md">
+                <input type="date" class="form-control" name="DateOfBirth" />
+                @Html.ValidationMessage("DateOfBirth", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md">
+
+            <div class="col-md">
+                @Html.TextBoxFor(m => m.Adresse, new { @class = "form-control", placeholder = "Adresse" })
+                @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md">
+            <div class="col-md">
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Phone Number" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md">
+
+            <div class="col-md">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                @Html.ValidationMessageFor(m => m.Email, "Invalid Email", new { @class = "text-danger d-none" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div class="col-md">
+            @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", placeholder = "Bio", style = "height:230px" })
+            @Html.ValidationMessageFor(m => m.Bio, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group ">
+        @Html.LabelFor(m => m.Photo, new { @class = "col-md control-label" })
+        <div class="col-md-6">
+            <input type="file" class="form-control" name="PhotoFile" required />
+            @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group ">
+        @Html.LabelFor(m => m.CV, new { @class = "col-md control-label" })
+        <div class="col-md-6">
+            <input type="file" class="form-control" name="CvFile" required />
+            @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        @Html.LabelFor(m => m.CoverLetter, new { @class = "col-md-2 control-label" })
+        <div class="col-md-6">
+            <input type="file" class="form-control" name="CoverLettreFile" required />
+            @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md control-label" })
+        <div class="col-md-6">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md control-label" })
+        <div class="col-md-6">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group mt-2">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="S'inscrire" />
+            <input type="submit" class="btn btn-primary" value="Register" />
+        </div>
+    </div>
+    <div class="form-group mt-2">
+        <div class="col-md-offset-2 col-md-10">
+          <span>Are you a company?</span>  <a href="@Url.Content("~/Account/RegisterCompany")" class="text-primary">Register Here</a>
         </div>
     </div>
 }
