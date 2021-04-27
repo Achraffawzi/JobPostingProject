@@ -413,7 +413,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CoverLetters\" />
     <Folder Include="Cvs\" />
+    <Folder Include="Photos\" />
     <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
   <ItemGroup>

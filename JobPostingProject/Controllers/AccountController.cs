@@ -18,9 +18,13 @@ namespace JobPostingProject.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext appDbContext;
+        private JobPostingDBEntities1 db;
 
         public AccountController()
         {
+            appDbContext = new ApplicationDbContext();
+            db = new JobPostingDBEntities1();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -172,7 +176,116 @@ namespace JobPostingProject.Controllers
             return View(model);
         }
 
+        private string UploadImage(HttpPostedFileBase file)
+        {
+            string path = "-1";
 
+            Random r = new Random();
+            int random = r.Next();
+
+            if(file.ContentLength > 0 && file != null)
+            {
+                string extension = Path.GetExtension(file.FileName);
+                if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
+                {
+                    try
+                    {
+                        path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
+                        path = "~/Photos" + random + Path.GetFileName(file.FileName);
+                    }
+                    catch(Exception e)
+                    {
+                        path = "-1";
+                   
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>Only Images</script>");
+                }
+            }
+            else
+            {
+                Response.Write("<script>select a file</script>");
+                path = "-1";
+            }
+            return path;
+        }
+
+        private string UploadCv(HttpPostedFileBase file)
+        {
+            string path = "-1";
+
+            Random r = new Random();
+            int random = r.Next();
+
+            if (file.ContentLength > 0 && file != null)
+            {
+                string extension = Path.GetExtension(file.FileName);
+                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+                {
+                    try
+                    {
+                        path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
+                        path = "~/Cvs" + random + Path.GetFileName(file.FileName);
+                    }
+                    catch (Exception e)
+                    {
+                        path = "-1";
+
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>Only Docs</script>");
+                }
+            }
+            else
+            {
+                Response.Write("<script>select a file</script>");
+                path = "-1";
+            }
+            return path;
+        }
+
+        private string UploadCoverLetter(HttpPostedFileBase file)
+        {
+            string path = "-1";
+
+            Random r = new Random();
+            int random = r.Next();
+
+            if (file.ContentLength > 0 && file != null)
+            {
+                string extension = Path.GetExtension(file.FileName);
+                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+                {
+                    try
+                    {
+                        path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
+                        path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
+                    }
+                    catch (Exception e)
+                    {
+                        path = "-1";
+
+                    }
+                }
+                else
+                {
+                    Response.Write("<script>Only Docs</script>");
+                }
+            }
+            else
+            {
+                Response.Write("<script>select a file</script>");
+                path = "-1";
+            }
+            return path;
+        }
 
 
         //
@@ -191,30 +304,60 @@ namespace JobPostingProject.Controllers
         public async Task<ActionResult> Register(RegisterViewModelCandidate model)
         {
             string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
-            string cvFileExtension  = Path.GetExtension(model.CvFileName.FileName);
+            string cvFileExtension = Path.GetExtension(model.CvFileName.FileName);
             string _cvFileName = cvFileName + cvFileExtension;
             model.CV = "~/Cvs/" + _cvFileName;
             _cvFileName = Path.Combine(Server.MapPath("~/Cvs/"), _cvFileName);
+            model.CvFileName.SaveAs(_cvFileName);
+
 
             string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
             string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
             string _photoFileName = photoFileName + photoFileExtension;
-            model.CV = "~/Cvs/" + _photoFileName;
-            _photoFileName = Path.Combine(Server.MapPath("~/Cvs/"), _photoFileName);
+            model.Photo = "~/Photos/" + _photoFileName;
+            _photoFileName = Path.Combine(Server.MapPath("~/Photos/"), _photoFileName);
+            model.PhotoFileName.SaveAs(_photoFileName);
+
 
             string coverLetterFileName = Path.GetFileNameWithoutExtension(model.CoverLetterFileName.FileName);
             string coverLetterFileExtension = Path.GetExtension(model.CoverLetterFileName.FileName);
             string _coverLetterFileName = coverLetterFileName + coverLetterFileExtension;
-            model.CV = "~/Cvs/" + _coverLetterFileName;
-            _coverLetterFileName = Path.Combine(Server.MapPath("~/Cvs/"), _coverLetterFileName);
+            model.CoverLetter = "~/CoverLetters/" + _coverLetterFileName;
+            _coverLetterFileName = Path.Combine(Server.MapPath("~/CoverLetters/"), _coverLetterFileName);
+            model.CoverLetterFileName.SaveAs(_coverLetterFileName);
+
 
 
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                    
                 
 
                 var result = await UserManager.CreateAsync(user, model.Password);
+                using(JobPostingDBEntities1 db = new JobPostingDBEntities1())
+                {
+                    var newCandidate = new Candidate
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Address = model.Adresse,
+                        Bio = model.Bio,
+                        DateOfBirth = model.DateOfBirth,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        Password = model.Password,
+                        Photo = model.Photo,
+                        Cv = model.CV,
+                        CoverLetter = model.CoverLetter
+                    };
+
+                    //db.Entry<Candidate>().State = System.Data.Entity.EntityState.Added;
+
+                    db.Candidates.Add(newCandidate);
+                    db.SaveChanges();
+                }
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

@@ -17,8 +17,11 @@ namespace JobPostingProject.Controllers
                 var userName = User.Identity.Name;
                 var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
                 string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
-
-                ViewData["FullName"] = fullName;
+                if(!string.IsNullOrEmpty(fullName))
+                {
+                    ViewData["FullName"] = fullName;
+                }
+                
             }
             base.OnActionExecuted(filterContext);
         }
