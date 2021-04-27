@@ -1,11 +1,11 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ml-auto mt-0 d-flex" }))
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="navbar navbar-nav ml-auto  justify-contect-end">
         <li>
             @Html.ActionLink("Hello " + ViewData["FullName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
@@ -15,8 +15,8 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Login", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <ul class="navbar navbar-nav ml-auto  justify-contect-end">
+        <li>@Html.ActionLink("Login", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "mr-3" })</li>
         <li>@Html.ActionLink("Register", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

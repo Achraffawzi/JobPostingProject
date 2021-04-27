@@ -35,12 +35,12 @@ namespace JobPostingProject.Models
         public string Cv { get; set; }
         public string CoverLetter { get; set; }
 
-        [NotMapped]
-        public HttpPostedFileBase CvFileName { get; set; }
-        [NotMapped]
-        public HttpPostedFileBase CoverLetterFileName { get; set; }
-        [NotMapped]
-        public HttpPostedFileBase PhotoFileName { get; set; }
+        //[NotMapped]
+        //public HttpPostedFileBase CvFileName { get; set; }
+        //[NotMapped]
+        //public HttpPostedFileBase CoverLetterFileName { get; set; }
+        //[NotMapped]
+        //public HttpPostedFileBase PhotoFileName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Application> Applications { get; set; }

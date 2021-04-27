@@ -7,7 +7,7 @@ using JobPostingProject.Models;
 
 namespace JobPostingProject.Controllers
 {
-    public class AnnouncementController : Controller
+    public class AnnouncementController : ApplicationBaseController
     {
         JobPostingDBEntities1 db = new JobPostingDBEntities1();
         // GET: Announcement

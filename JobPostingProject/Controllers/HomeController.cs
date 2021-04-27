@@ -7,7 +7,7 @@ using JobPostingProject.Models;
 
 namespace JobPostingProject.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApplicationBaseController
     {
         public ActionResult Index()
         {
