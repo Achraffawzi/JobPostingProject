@@ -176,120 +176,121 @@ namespace JobPostingProject.Controllers
             return View(model);
         }
 
-        private string UploadImage(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadImage(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if(file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/Photos" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch(Exception e)
-                    {
-                        path = "-1";
+        //    if(file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/Photos" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch(Exception e)
+        //            {
+        //                path = "-1";
                    
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Images</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Images</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
-        private string UploadCv(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadCv(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if (file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/Cvs" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch (Exception e)
-                    {
-                        path = "-1";
+        //    if (file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/Cvs" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                path = "-1";
 
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Docs</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Docs</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
-        private string UploadCoverLetter(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadCoverLetter(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if (file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch (Exception e)
-                    {
-                        path = "-1";
+        //    if (file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                path = "-1";
 
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Docs</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Docs</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
 
         //
         // GET: /Account/Register
+
         [AllowAnonymous]
         public ActionResult Register()
         {

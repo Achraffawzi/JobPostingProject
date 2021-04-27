@@ -15,10 +15,10 @@ namespace JobPostingProject.Controllers
             {
                 ApplicationDbContext context = new ApplicationDbContext();
                 var userName = User.Identity.Name;
+                if(!string.IsNullOrEmpty(userName))
+                {
                 var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
                 string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
-                if(!string.IsNullOrEmpty(fullName))
-                {
                     ViewData["FullName"] = fullName;
                 }
                 

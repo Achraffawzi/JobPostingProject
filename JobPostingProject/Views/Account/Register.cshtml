@@ -24,7 +24,7 @@
 
             <div class="col-md">
                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
-                @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -32,8 +32,13 @@
         <div class="form-group col-md">
 
             <div class="col-md">
-                <input type="date" class="form-control" name="DateOfBirth" />
+                @Html.LabelFor(m => m.Photo, new { @class = "col-md control-label" })
+                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", type = "date" })
                 @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+
+                @*<input type="date" class="form-control" name="DateOfBirth" />
+        @Html.ValidationMessage("DateOfBirth", "", new { @class = "text-danger" })*@
+
             </div>
         </div>
         <div class="form-group col-md">
@@ -56,7 +61,6 @@
 
             <div class="col-md">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                @Html.ValidationMessageFor(m => m.Email, "Invalid Email", new { @class = "text-danger d-none" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
         </div>
