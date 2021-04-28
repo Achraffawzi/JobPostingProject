@@ -27,7 +27,7 @@ namespace JobPostingProject.Controllers
             db = new JobPostingDBEntities1();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -39,9 +39,9 @@ namespace JobPostingProject.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -125,7 +125,7 @@ namespace JobPostingProject.Controllers
             // Si un utilisateur entre des codes incorrects pendant un certain intervalle, le compte de cet utilisateur 
             // est alors verrouillé pendant une durée spécifiée. 
             // Vous pouvez configurer les paramètres de verrouillage du compte dans IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -197,7 +197,7 @@ namespace JobPostingProject.Controllers
         //            catch(Exception e)
         //            {
         //                path = "-1";
-                   
+
         //            }
         //        }
         //        else
@@ -287,6 +287,14 @@ namespace JobPostingProject.Controllers
         //    return path;
         //}
 
+        [AllowAnonymous]
+        public async Task<JsonResult> UserAlreadyExistsAsync(string Email)
+        {
+            var result =
+                await UserManager.FindByNameAsync(Email) ??
+                await UserManager.FindByEmailAsync(Email);
+            return Json(result == null, JsonRequestBehavior.AllowGet);
+        }
 
         //
         // GET: /Account/Register
@@ -304,65 +312,108 @@ namespace JobPostingProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModelCandidate model)
         {
-            string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
-            string cvFileExtension = Path.GetExtension(model.CvFileName.FileName);
-            string _cvFileName = cvFileName + cvFileExtension;
-            model.CV = "~/Cvs/" + _cvFileName;
-            _cvFileName = Path.Combine(Server.MapPath("~/Cvs/"), _cvFileName);
-            model.CvFileName.SaveAs(_cvFileName);
-
-
-            string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
-            string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
-            string _photoFileName = photoFileName + photoFileExtension;
-            model.Photo = "~/Photos/" + _photoFileName;
-            _photoFileName = Path.Combine(Server.MapPath("~/Photos/"), _photoFileName);
-            model.PhotoFileName.SaveAs(_photoFileName);
-
-
-            string coverLetterFileName = Path.GetFileNameWithoutExtension(model.CoverLetterFileName.FileName);
-            string coverLetterFileExtension = Path.GetExtension(model.CoverLetterFileName.FileName);
-            string _coverLetterFileName = coverLetterFileName + coverLetterFileExtension;
-            model.CoverLetter = "~/CoverLetters/" + _coverLetterFileName;
-            _coverLetterFileName = Path.Combine(Server.MapPath("~/CoverLetters/"), _coverLetterFileName);
-            model.CoverLetterFileName.SaveAs(_coverLetterFileName);
-
-
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
-                    
-                
+                // Todo: Create a folder for each Candidate
 
-                var result = await UserManager.CreateAsync(user, model.Password);
-                using(JobPostingDBEntities1 db = new JobPostingDBEntities1())
+                var folderPath = Server.MapPath("~/Data/Candidate/" + model.Email);
+                // Chech if Folder is Exists
+                byte[] imageData = null;
+                if (!Directory.Exists(folderPath))
                 {
-                    var newCandidate = new Candidate
+                    // Create Folder
+                    Directory.CreateDirectory(Server.MapPath("~/Data/Candidate/" + model.Email));
+                    string fullPathInServer = "~/Data/Candidate/" + model.Email + "/";
+
+                    // Save Cv In Server Side 
+                    if (model.CvFileName != null)
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Address = model.Adresse,
-                        Bio = model.Bio,
-                        DateOfBirth = model.DateOfBirth,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber,
-                        Password = model.Password,
-                        Photo = model.Photo,
-                        Cv = model.CV,
-                        CoverLetter = model.CoverLetter
-                    };
 
-                    //db.Entry<Candidate>().State = System.Data.Entity.EntityState.Added;
+                        string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
+                        string cvFileExtension = Path.GetExtension(model.CvFileName.FileName);
+                        string _cvFileName = cvFileName + cvFileExtension;
+                        model.CV = fullPathInServer + _cvFileName;
+                        _cvFileName = Path.Combine(Server.MapPath(fullPathInServer), _cvFileName);
+                        model.CvFileName.SaveAs(_cvFileName);
+                        
+                    }
 
-                    db.Candidates.Add(newCandidate);
-                    db.SaveChanges();
+                    // Save Photo In Server Side 
+                    if (model.PhotoFileName != null)
+                    {
+
+                        string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
+                        string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
+                        string _photoFileName = photoFileName + photoFileExtension;
+                        model.Photo = fullPathInServer + _photoFileName;
+                        _photoFileName = Path.Combine(Server.MapPath(fullPathInServer), _photoFileName);
+                        model.PhotoFileName.SaveAs(_photoFileName);
+
+                        // Todo: convert the user uploaded Photo as Byte Array before save to DB/ ApplicationDbContext => AspNetUserTable
+
+                        if (Request.Files.Count > 0)
+                        {
+                            HttpPostedFileBase fileBase = Request.Files["PhotoFileName"];
+                            using (var binary = new BinaryReader(fileBase.InputStream))
+                            {
+                                imageData = binary.ReadBytes(fileBase.ContentLength);
+                            }
+                        }
+                    }
+
+                    // Save Cover Letter In Server Side 
+                    if (model.CoverLetterFileName != null)
+                    {
+
+                        string coverLetterFileName = Path.GetFileNameWithoutExtension(model.CoverLetterFileName.FileName);
+                        string coverLetterFileExtension = Path.GetExtension(model.CoverLetterFileName.FileName);
+                        string _coverLetterFileName = coverLetterFileName + coverLetterFileExtension;
+                        model.CoverLetter = fullPathInServer + _coverLetterFileName;
+                        _coverLetterFileName = Path.Combine(Server.MapPath(fullPathInServer), _coverLetterFileName);
+                        model.CoverLetterFileName.SaveAs(_coverLetterFileName);
+                    }
                 }
 
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+
+                if (model.PhotoFileName != null)
+                {
+                    user.UserPhoto = imageData;
+                }
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+               
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    var res = await UserManager.AddToRoleAsync(user.Id, "candidate");
+                    using (JobPostingDBEntities1 db = new JobPostingDBEntities1())
+                    {
+                        var newCandidate = new Candidate
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Address = model.Adresse,
+                            Bio = model.Bio,
+                            DateOfBirth = model.DateOfBirth,
+                            Email = model.Email,
+                            PhoneNumber = model.PhoneNumber,
+                            Password = model.Password,
+                            Photo = model.Photo,
+                            Cv = model.CV,
+                            CoverLetter = model.CoverLetter
+                        };
+
+                        //db.Entry<Candidate>().State = System.Data.Entity.EntityState.Added;
+
+                        db.Candidates.Add(newCandidate);
+                        db.SaveChanges();
+                    }
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+
                     // Pour plus d'informations sur l'activation de la confirmation de compte et de la réinitialisation de mot de passe, visitez https://go.microsoft.com/fwlink/?LinkID=320771
                     // Envoyer un message électronique avec ce lien
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

@@ -187,6 +187,10 @@
     <Compile Include="Migrations\202104261525349_Edit_Aspnetuser.Designer.cs">
       <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104280214476_Add UserPhoroColumn.cs" />
+    <Compile Include="Migrations\202104280214476_Add UserPhoroColumn.Designer.cs">
+      <DependentUpon>202104280214476_Add UserPhoroColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs">
@@ -242,6 +246,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\UserDefaultImage\defaultImage.jpg" />
     <Content Include="Models\JobPostingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>JobPostingModel.edmx</DependentUpon>
@@ -415,6 +420,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="CoverLetters\" />
     <Folder Include="Cvs\" />
+    <Folder Include="Data\Candidate\" />
     <Folder Include="Photos\" />
     <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
@@ -436,6 +442,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104261525349_Edit_Aspnetuser.resx">
       <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104280214476_Add UserPhoroColumn.resx">
+      <DependentUpon>202104280214476_Add UserPhoroColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

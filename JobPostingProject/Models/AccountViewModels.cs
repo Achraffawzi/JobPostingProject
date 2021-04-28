@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace JobPostingProject.Models
 {
@@ -90,7 +91,7 @@ namespace JobPostingProject.Models
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        [Display(Name = "Bio")]
+        [Display(Name = "About You")]
         public string Bio { get; set; }
 
         //[Required(ErrorMessage = "{0} is required")]
@@ -105,7 +106,7 @@ namespace JobPostingProject.Models
         [Display(Name = "Cover Letter")]
         public string CoverLetter { get; set; }
 
-
+        [Remote("UserAlreadyExistsAsync", "Account", ErrorMessage = "User with this Email already exists")]
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress(ErrorMessage ="Invalid Email")]
         [Display(Name = "Email")]
@@ -119,7 +120,7 @@ namespace JobPostingProject.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password ")]
-        [Compare("Password", ErrorMessage = "Password not match")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
 
         public HttpPostedFileBase CvFileName { get; set; }
@@ -170,7 +171,7 @@ namespace JobPostingProject.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirme Password")]
-        [Compare("Password", ErrorMessage = "Password not match")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -189,7 +190,7 @@ namespace JobPostingProject.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmer le mot de passe")]
-        [Compare("Password", ErrorMessage = "Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

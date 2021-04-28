@@ -35,8 +35,8 @@
 
 .nav-link:hover,
 .nav-item.active > .nav-link {*/
-    /* color: rgba(0,0,0,.9); */
-    /*color: #5672ff !important;
+/* color: rgba(0,0,0,.9); */
+/*color: #5672ff !important;
     border-bottom: 2px solid #5672ff;
 }
 
@@ -47,3 +47,10 @@
 .nav-item:first-of-type {
     margin-right: auto;
 }*/
+
+
+input[type="file"] {
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}

@@ -11,6 +11,8 @@ namespace JobPostingProject.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public byte[] UserPhoto { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Notez qu'authenticationType doit correspondre à l'élément défini dans CookieAuthenticationOptions.AuthenticationType
