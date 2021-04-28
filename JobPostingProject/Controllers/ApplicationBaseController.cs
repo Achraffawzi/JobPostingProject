@@ -11,17 +11,17 @@ namespace JobPostingProject.Controllers
     {
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if(User != null)
+            if (User != null)
             {
                 ApplicationDbContext context = new ApplicationDbContext();
                 var userName = User.Identity.Name;
-                if(!string.IsNullOrEmpty(userName))
+                if (!string.IsNullOrEmpty(userName))
                 {
-                var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
-                string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
+                    var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
+                    string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
                     ViewData["FullName"] = fullName;
                 }
-                
+
             }
             base.OnActionExecuted(filterContext);
         }

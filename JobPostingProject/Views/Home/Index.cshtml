@@ -37,3 +37,45 @@
 @section Home {
     <link href="@Url.Content("~/Content/Home.css")" rel="stylesheet" type="text/css" />
 }
+
+@*@section Scripts {
+    <script>
+        function generateAvatar(text, foregroundColor = "white", backgroundColor = "black") {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext('2d');
+
+            canvas.width = "48";
+            canvas.height = "48";
+
+            // Draw Background
+            context.fillStyle = backgroundColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            //Draw text
+            context.font = "bold 26px Assistant";
+            context.fillStyle = foregroundColor;
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            return canvas.toDataURL()
+        }
+        const firstName = localStorage.getItem("firstName").toString().charAt(0);
+        const lastName = localStorage.getItem("lastName").toString().charAt(0);
+        const fullName = firstName.concat(lastName);
+
+        console.log(generateAvatar(fullName));
+
+        $.ajax({
+            url: "/Home/GetAvatar",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(generateAvatar(fullName)),
+            success: function (mydata) {
+                console.log(mydata);
+                //history.pushState('', 'New URL: ' + href, href); // This Code lets you to change url howyouwant
+
+            }
+        });
+    </script>
+}*@

@@ -3,20 +3,23 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ml-auto mt-0 d-flex" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="navbar navbar-nav ml-auto  justify-contect-end">
-        <li>
-            @Html.ActionLink("Hello " + ViewData["FullName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
-    </ul>
+        <ul class="navbar navbar-nav ml-auto  justify-contect-end">
+            <li>
+                @Html.ActionLink("Hello " + ViewData["FullName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><img src="@Url.Action("UserPhotos", "Home" )" height="48" width="48" style="border-radius:50px;" /></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
+        </ul>
     }
 }
 else
 {
     <ul class="navbar navbar-nav ml-auto  justify-contect-end">
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "mr-3" })</li>
+
         <li>@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
     </ul>
 }
