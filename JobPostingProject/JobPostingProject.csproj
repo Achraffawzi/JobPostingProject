@@ -418,10 +418,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CoverLetters\" />
-    <Folder Include="Cvs\" />
     <Folder Include="Data\Candidate\" />
-    <Folder Include="Photos\" />
+    <Folder Include="Data\Companies\" />
     <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
   <ItemGroup>

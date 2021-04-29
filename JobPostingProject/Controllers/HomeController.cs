@@ -18,8 +18,8 @@ namespace JobPostingProject.Controllers
             string userId = User.Identity.GetUserId();
 
             // todo: get the  authenticated User details to load his Image    
-            var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
-            var authenticatedUser = bdUsers.Users.Where(u => u.Id == userId).FirstOrDefault();
+            var dbUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            var authenticatedUser = dbUsers.Users.Where(u => u.Id == userId).FirstOrDefault();
             var userPhoto = authenticatedUser.UserPhoto;
             if (userPhoto == null)
             {
@@ -35,7 +35,7 @@ namespace JobPostingProject.Controllers
 
                 // Todo: Update UserPhoto Column 
                 authenticatedUser.UserPhoto = imageData;
-                bdUsers.SaveChanges();
+                dbUsers.SaveChanges();
                 return File(imageData, "image/jpg");
 
             }
