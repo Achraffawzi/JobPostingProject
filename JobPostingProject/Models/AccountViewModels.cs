@@ -165,6 +165,7 @@ namespace JobPostingProject.Models
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(100, ErrorMessage = " {0} must have at less {2} characters.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [RegularExpression("^[A-Za-z0-9$!@&*!?]{6,}$", ErrorMessage = "Password must contain letters, numbers and symbols")]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
@@ -172,6 +173,8 @@ namespace JobPostingProject.Models
         [Display(Name = "Confirme Password")]
         [Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
+
+        public HttpPostedFileBase LogoFileName { get; set; }
     }
 
     public class ResetPasswordViewModel

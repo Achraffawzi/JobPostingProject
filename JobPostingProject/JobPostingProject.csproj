@@ -415,6 +415,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="CoverLetters\" />
     <Folder Include="Cvs\" />
+    <Folder Include="Logos\" />
     <Folder Include="Photos\" />
     <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>

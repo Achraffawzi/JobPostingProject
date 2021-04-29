@@ -31,16 +31,16 @@
     font-weight: 400;
     font-size: 16px;
     display: inline-block;
-}
+}*/
 
 .nav-link:hover,
-.nav-item.active > .nav-link {*/
-    /* color: rgba(0,0,0,.9); */
-    /*color: #5672ff !important;
+.nav-item.active > .nav-link {
+     color: rgba(0,0,0,.9); 
+    color: #5672ff !important;
     border-bottom: 2px solid #5672ff;
 }
 
-.nav-item {
+/*.nav-item {
     margin: 0 10px;
 }
 

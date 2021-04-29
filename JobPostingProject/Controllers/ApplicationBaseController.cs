@@ -11,17 +11,24 @@ namespace JobPostingProject.Controllers
     {
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if(User != null)
+            try
             {
-                ApplicationDbContext context = new ApplicationDbContext();
-                var userName = User.Identity.Name;
-                var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
-                string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
-                if(!string.IsNullOrEmpty(fullName))
+                if (User != null)
                 {
-                    ViewData["FullName"] = fullName;
+                    ApplicationDbContext context = new ApplicationDbContext();
+                    var userName = User.Identity.Name;
+                    var user = context.Users.SingleOrDefault(u => u.UserName.Equals(userName));
+                    string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
+                    if (!string.IsNullOrEmpty(fullName))
+                    {
+                        ViewData["FullName"] = fullName;
+                    }
+
                 }
-                
+            }
+            catch(Exception ex)
+            {
+                Response.Redirect("~/Views/Home/Index.cshtml");
             }
             base.OnActionExecuted(filterContext);
         }

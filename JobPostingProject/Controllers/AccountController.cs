@@ -150,11 +150,33 @@ namespace JobPostingProject.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterCompany(RegisterViewModelCandidate model)
+        public async Task<ActionResult> RegisterCompany(RegisterViewModelCompany model)
         {
+            string logoFileName = Path.GetFileNameWithoutExtension(model.LogoFileName.FileName);
+            string logoFileExtension = Path.GetExtension(model.LogoFileName.FileName);
+            string _logoFileName = logoFileName + logoFileExtension;
+            model.Logo = "~/Logos/" + _logoFileName;
+            _logoFileName = Path.Combine(Server.MapPath("~/Logos/"), _logoFileName);
+            model.LogoFileName.SaveAs(_logoFileName);
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                // Add new company to the database
+                Company newCompany = new Company
+                {
+                    Name = model.Name,
+                    Logo = _logoFileName,
+                    Address = model.Adresse,
+                    City = model.City,
+                    PhoneNumber = model.PhoneNumber,
+                    Description = model.Description,
+                    Email = model.Email,
+                    Password = model.Password
+                };
+                db.Companies.Add(newCompany);
+                db.SaveChanges();
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -167,6 +189,9 @@ namespace JobPostingProject.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
 
+                    // Add company to the aspnetuser
+                    await UserManager.AddToRoleAsync(user.Id, "Company");
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -176,116 +201,116 @@ namespace JobPostingProject.Controllers
             return View(model);
         }
 
-        private string UploadImage(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadImage(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if(file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/Photos" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch(Exception e)
-                    {
-                        path = "-1";
+        //    if(file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/Photos" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch(Exception e)
+        //            {
+        //                path = "-1";
                    
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Images</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Images</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
-        private string UploadCv(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadCv(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if (file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/Cvs" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch (Exception e)
-                    {
-                        path = "-1";
+        //    if (file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/Cvs" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                path = "-1";
 
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Docs</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Docs</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
-        private string UploadCoverLetter(HttpPostedFileBase file)
-        {
-            string path = "-1";
+        //private string UploadCoverLetter(HttpPostedFileBase file)
+        //{
+        //    string path = "-1";
 
-            Random r = new Random();
-            int random = r.Next();
+        //    Random r = new Random();
+        //    int random = r.Next();
 
-            if (file.ContentLength > 0 && file != null)
-            {
-                string extension = Path.GetExtension(file.FileName);
-                if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
-                        file.SaveAs(path);
-                        path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
-                    }
-                    catch (Exception e)
-                    {
-                        path = "-1";
+        //    if (file.ContentLength > 0 && file != null)
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
+        //        {
+        //            try
+        //            {
+        //                path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
+        //                file.SaveAs(path);
+        //                path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                path = "-1";
 
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>Only Docs</script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>select a file</script>");
-                path = "-1";
-            }
-            return path;
-        }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Response.Write("<script>Only Docs</script>");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Response.Write("<script>select a file</script>");
+        //        path = "-1";
+        //    }
+        //    return path;
+        //}
 
 
         //
@@ -330,7 +355,13 @@ namespace JobPostingProject.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new ApplicationUser
+                { 
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                     
                 
 

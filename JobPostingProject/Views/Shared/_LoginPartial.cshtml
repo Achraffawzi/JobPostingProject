@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
 
     <ul class="navbar navbar-nav ml-auto  justify-contect-end">
-        <li>
+        <li class="mr-3">
             @Html.ActionLink("Hello " + ViewData["FullName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
