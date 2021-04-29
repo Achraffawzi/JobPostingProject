@@ -8,8 +8,9 @@
 <section class="pt-5">
     <h2>@ViewBag.Title.</h2>
 
-    @using (Html.BeginForm("RegisterCompany", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("RegisterCompany", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype="multipart/form-data" }))
     {
+        @Html.AntiForgeryToken()
         @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
         <div class="row">
 
@@ -23,8 +24,8 @@
             <div class="form-group col-md">
                 @Html.LabelFor(m => m.Logo, new { @class = "col-md-2 control-label" })
                 <div class="col-md">
-                    <input type="file" class="form-control"   data-val-required="Select a file" accept="png|bmp|jpg|jpeg"
-    data-val-accept="Only following types supported png|bmp|jpg|jpeg"  name="Logo" required id="Logo"/>
+                    <input type="file" class="form-control"   accept="image/*" name="LogoFileName" id="Logo"/>
+                    @*@Html.TextBoxFor(m => m.Logo, new { @class="form-control", type = "file" })*@
                     @Html.ValidationMessage("Logo", "", new { @class = "text-danger" })
                   
                 </div>

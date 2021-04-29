@@ -142,7 +142,7 @@ namespace JobPostingProject.Models
         [RegularExpression("^[0-9]{10,15}$",ErrorMessage ="Invalid Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Logo is required")]
+        //[Required(ErrorMessage = "Logo is required")]
         [Display(Name = "Logo")]
         public string Logo { get; set; }
 
@@ -158,6 +158,7 @@ namespace JobPostingProject.Models
         [Display(Name = "City")]
         public string City { get; set; }
 
+        [Remote("UserAlreadyExistsAsync", "Account", ErrorMessage = "Company with this Email already exists")]
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         [Display(Name = "Email")]
@@ -173,6 +174,8 @@ namespace JobPostingProject.Models
         [Display(Name = "Confirme Password")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
+
+        public HttpPostedFileBase LogoFileName { get; set; }
     }
 
     public class ResetPasswordViewModel

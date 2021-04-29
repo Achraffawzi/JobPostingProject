@@ -646,3 +646,4 @@ E:\User_ID\Data\Dev\Projects\JobPostingProject\JobPostingProject\obj\Debug\JobPo
 E:\User_ID\Data\Dev\Projects\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.dll
 E:\User_ID\Data\Dev\Projects\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.pdb
 E:\User_ID\Data\Dev\Projects\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.Migrations.AddUserPhoroColumn.resources
+C:\Users\hewlettpackard\Desktop\PFF_JobPosting\JobPostingProject\JobPostingProject\obj\Debug\JobPostingProject.Migrations.AddUserPhoroColumn.resources

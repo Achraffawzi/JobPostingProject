@@ -1,6 +1,0 @@
-
-tree /F /A > app.structure.txt
-
-/F = show file names
-/A = use ASCII
-> pipe the result to file

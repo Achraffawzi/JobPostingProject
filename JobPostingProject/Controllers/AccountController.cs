@@ -150,23 +150,78 @@ namespace JobPostingProject.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterCompany(RegisterViewModelCandidate model)
+        public async Task<ActionResult> RegisterCompany(RegisterViewModelCompany model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                // Todo: Create a folder for each Company
+
+                var folderPath = Server.MapPath("~/Data/Companies/" + model.Email);
+                // Chech if Folder is Exists
+                Byte[] logoData = null;
+                //string _logoFileName;
+
+                if (!Directory.Exists(folderPath))
+                {
+                    // Create Folder
+                    Directory.CreateDirectory(Server.MapPath("~/Data/Companies/" + model.Email));
+                    string fullPathInServer = "~/Data/Companies/" + model.Email + "/";
+
+                    // Get file info of the logo
+                    if(model.LogoFileName != null)
+                    {
+                        string logoFileName = Path.GetFileNameWithoutExtension(model.LogoFileName.FileName);
+                        string logoFileExtension = Path.GetExtension(model.LogoFileName.FileName);
+                        string _logoFileName = logoFileName + logoFileExtension;
+                        model.Logo = fullPathInServer + _logoFileName;
+                        _logoFileName = Path.Combine(Server.MapPath(fullPathInServer), _logoFileName);
+                        model.LogoFileName.SaveAs(_logoFileName);
+
+
+
+                        // Todo: convert the Company uploaded Photo as Byte Array before save to DB/ ApplicationDbContext => AspNetUserTable
+                        if (Request.Files.Count > 0)
+                        {
+                            HttpPostedFileBase fileBase = Request.Files["LogoFileName"];
+                            using (var binary = new BinaryReader(fileBase.InputStream))
+                            {
+                                logoData = binary.ReadBytes(fileBase.ContentLength);
+                            }
+                        }
+                    }
+                }
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.Name, LastName = model.Name, UserPhoto = logoData };
+
+
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await UserManager.AddToRoleAsync(user.Id, "company");
+                    
+
+                    // Add new company to the database
+                    Company newCompany = new Company
+                    {
+                        Name = model.Name,
+                        Logo = model.Logo,
+                        Address = model.Adresse,
+                        City = model.City,
+                        PhoneNumber = model.PhoneNumber,
+                        Description = model.Description,
+                        Email = model.Email,
+                        Password = model.Password
+                    };
+                    db.Companies.Add(newCompany);
+                    db.SaveChanges();
 
                     // Pour plus d'informations sur l'activation de la confirmation de compte et de la réinitialisation de mot de passe, visitez https://go.microsoft.com/fwlink/?LinkID=320771
                     // Envoyer un message électronique avec ce lien
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmez votre compte", "Confirmez votre compte en cliquant <a href=\"" + callbackUrl + "\">ici</a>");
-
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -175,117 +230,6 @@ namespace JobPostingProject.Controllers
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
             return View(model);
         }
-
-        //private string UploadImage(HttpPostedFileBase file)
-        //{
-        //    string path = "-1";
-
-        //    Random r = new Random();
-        //    int random = r.Next();
-
-        //    if(file.ContentLength > 0 && file != null)
-        //    {
-        //        string extension = Path.GetExtension(file.FileName);
-        //        if(extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-        //        {
-        //            try
-        //            {
-        //                path = Path.Combine(Server.MapPath("~/Photos"), random + Path.GetFileName(file.FileName));
-        //                file.SaveAs(path);
-        //                path = "~/Photos" + random + Path.GetFileName(file.FileName);
-        //            }
-        //            catch(Exception e)
-        //            {
-        //                path = "-1";
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Response.Write("<script>Only Images</script>");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Response.Write("<script>select a file</script>");
-        //        path = "-1";
-        //    }
-        //    return path;
-        //}
-
-        //private string UploadCv(HttpPostedFileBase file)
-        //{
-        //    string path = "-1";
-
-        //    Random r = new Random();
-        //    int random = r.Next();
-
-        //    if (file.ContentLength > 0 && file != null)
-        //    {
-        //        string extension = Path.GetExtension(file.FileName);
-        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-        //        {
-        //            try
-        //            {
-        //                path = Path.Combine(Server.MapPath("~/Cvs"), random + Path.GetFileName(file.FileName));
-        //                file.SaveAs(path);
-        //                path = "~/Cvs" + random + Path.GetFileName(file.FileName);
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                path = "-1";
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Response.Write("<script>Only Docs</script>");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Response.Write("<script>select a file</script>");
-        //        path = "-1";
-        //    }
-        //    return path;
-        //}
-
-        //private string UploadCoverLetter(HttpPostedFileBase file)
-        //{
-        //    string path = "-1";
-
-        //    Random r = new Random();
-        //    int random = r.Next();
-
-        //    if (file.ContentLength > 0 && file != null)
-        //    {
-        //        string extension = Path.GetExtension(file.FileName);
-        //        if (extension.ToLower().Equals(".docx") || extension.ToLower().Equals(".pdf"))
-        //        {
-        //            try
-        //            {
-        //                path = Path.Combine(Server.MapPath("~/CoverLetters"), random + Path.GetFileName(file.FileName));
-        //                file.SaveAs(path);
-        //                path = "~/CoverLetters" + random + Path.GetFileName(file.FileName);
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                path = "-1";
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Response.Write("<script>Only Docs</script>");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Response.Write("<script>select a file</script>");
-        //        path = "-1";
-        //    }
-        //    return path;
-        //}
 
         [AllowAnonymous]
         public async Task<JsonResult> UserAlreadyExistsAsync(string Email)
