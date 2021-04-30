@@ -204,6 +204,7 @@ namespace JobPostingProject.Controllers
                     // Add new company to the database
                     Company newCompany = new Company
                     {
+                        CompanySecondID = user.Id,
                         Name = model.Name,
                         Logo = model.Logo,
                         Address = model.Adresse,
@@ -336,6 +337,7 @@ namespace JobPostingProject.Controllers
                     {
                         var newCandidate = new Candidate
                         {
+                            CandidateSecondID = user.Id,
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             Address = model.Adresse,

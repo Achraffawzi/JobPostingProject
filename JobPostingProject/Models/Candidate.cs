@@ -11,9 +11,7 @@ namespace JobPostingProject.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Web;
-
+    
     public partial class Candidate
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -34,14 +32,8 @@ namespace JobPostingProject.Models
         public string Password { get; set; }
         public string Cv { get; set; }
         public string CoverLetter { get; set; }
-
-        //[NotMapped]
-        //public HttpPostedFileBase CvFileName { get; set; }
-        //[NotMapped]
-        //public HttpPostedFileBase CoverLetterFileName { get; set; }
-        //[NotMapped]
-        //public HttpPostedFileBase PhotoFileName { get; set; }
-
+        public string CandidateSecondID { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Application> Applications { get; set; }
     }

@@ -1,0 +1,33 @@
+﻿@model JobPostingProject.Models.Announcement
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="jobs">
+                <div class="job mb-2">
+                    <div class="job__header d-flex align-items-center justify-content-between flex-wrap mb-0">
+                        <h5 class="job__title">@Model.Title</h5>
+                        <h2 class="job__city">@Model.Location</h2>
+                    </div>
+                    <h5 class="job__datetime">@Model.PublicationDate</h5>
+                    <h5 class="job__company-name">@Model.Company.Name</h5>
+                    <p class="job__description mt-5 mb-3">@Model.Description</p>
+                    <p class="job__apply">
+                        <button type="submit" class="btn btn-primary">
+                            More Details
+                        </button>
+                        @*@Html.ActionLink("Apply Now", "Apply", "Application", null, new { @class = "btn btn-primary", , type = "submit" })*@
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>

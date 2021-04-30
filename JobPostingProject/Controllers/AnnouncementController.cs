@@ -42,24 +42,6 @@ namespace JobPostingProject.Controllers
 
         }
 
-        //[HttpGet]
-        //public ActionResult Search(FormCollection form)
-        //{
-        //    ViewBag.Levels = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
-        //    List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Equals("Frontend with reactJs") && announcement.Location.Equals("Las Vegas")) as List<Announcement>;
-        //    return View("Index", listAnnouncements);
-        //    //return RedirectToAction("Index", "Announcement", searchedAnnouncements);
-        //}
-
-        //[HttpPost]
-        ////[Route(Name = "Announcement/Index")]
-        //[ActionName("Index")]
-        //public ActionResult Search()
-        //{
-        //    List<Announcement> searchedAnnouncements = db.Announcements.Where(announcement => announcement.Title.Equals(form["titleInput"]) && announcement.Location.Equals(form["cityInput"])) as List<Announcement>;
-        //    return View(searchedAnnouncements);
-        //}
-
         // GET: Announcement/Details/5
         public ActionResult Details(int id)
         {
