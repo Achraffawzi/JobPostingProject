@@ -7,7 +7,7 @@
     <Property Name="AnnouncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="LevelID" Type="Int32" Nullable="false" />
     <Property Name="CompanyID" Type="Int32" Nullable="false" />
@@ -45,6 +45,7 @@
     <Property Name="Cv" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="CoverLetter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Applications" Relationship="Self.FK_Application_Candidate" FromRole="Candidate" ToRole="Application" />
+    <Property Name="CandidateSecondID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -68,6 +69,7 @@
     <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Announcements" Relationship="Self.FK_Announcement_Company" FromRole="Company" ToRole="Announcement" />
+    <Property Name="CompanySecondID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Level">
     <Key>

@@ -7,7 +7,7 @@
     <Property Name="AnnouncementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="Description" Type="varchar(max)" Nullable="false" />
-    <Property Name="PublicationDate" Type="datetime" Nullable="false" />
+    <Property Name="PublicationDate" Type="date" Nullable="false" />
     <Property Name="Location" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="LevelID" Type="int" Nullable="false" />
     <Property Name="CompanyID" Type="int" Nullable="false" />
@@ -27,6 +27,7 @@
       <PropertyRef Name="CandidateID" />
     </Key>
     <Property Name="CandidateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CandidateSecondID" Type="nvarchar(max)" Nullable="false" />
     <Property Name="FirstName" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="LastName" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="DateOfBirth" Type="date" Nullable="false" />
@@ -51,6 +52,7 @@
       <PropertyRef Name="CompanyID" />
     </Key>
     <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanySecondID" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="600" Nullable="false" />
     <Property Name="Address" Type="varchar" MaxLength="600" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="200" Nullable="false" />
@@ -77,20 +79,6 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
-  <Association Name="FK_Announcement_Company">
-    <End Role="Company" Type="Self.Company" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Company">
-        <PropertyRef Name="CompanyID" />
-      </Principal>
-      <Dependent Role="Announcement">
-        <PropertyRef Name="CompanyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Announcement_JobCategory">
     <End Role="Category" Type="Self.Category" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -133,20 +121,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Application_Candidate">
-    <End Role="Candidate" Type="Self.Candidate" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Application" Type="Self.Application" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Candidate">
-        <PropertyRef Name="CandidateID" />
-      </Principal>
-      <Dependent Role="Application">
-        <PropertyRef Name="CandidateID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="JobPostingDBModelStoreContainer">
     <EntitySet Name="Announcement" EntityType="Self.Announcement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
@@ -155,10 +129,6 @@
     <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Announcement_Company" Association="Self.FK_Announcement_Company">
-      <End Role="Company" EntitySet="Company" />
-      <End Role="Announcement" EntitySet="Announcement" />
-    </AssociationSet>
     <AssociationSet Name="FK_Announcement_JobCategory" Association="Self.FK_Announcement_JobCategory">
       <End Role="Category" EntitySet="Category" />
       <End Role="Announcement" EntitySet="Announcement" />
@@ -169,10 +139,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Application_Announcement" Association="Self.FK_Application_Announcement">
       <End Role="Announcement" EntitySet="Announcement" />
-      <End Role="Application" EntitySet="Application" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Application_Candidate" Association="Self.FK_Application_Candidate">
-      <End Role="Candidate" EntitySet="Candidate" />
       <End Role="Application" EntitySet="Application" />
     </AssociationSet>
   </EntityContainer>
