@@ -27,6 +27,7 @@
     <EntitySetMapping Name="Candidates">
       <EntityTypeMapping TypeName="JobPostingDBModel.Candidate">
         <MappingFragment StoreEntitySet="Candidate">
+          <ScalarProperty Name="CandidateSecondID" ColumnName="CandidateSecondID" />
           <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -53,6 +54,7 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="JobPostingDBModel.Company">
         <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="CompanySecondID" ColumnName="CompanySecondID" />
           <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Address" ColumnName="Address" />
