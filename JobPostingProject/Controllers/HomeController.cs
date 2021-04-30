@@ -12,6 +12,9 @@ namespace JobPostingProject.Controllers
 {
     public class HomeController : ApplicationBaseController
     {
+        JobPostingDBEntities1 db = new JobPostingDBEntities1();
+
+        // Load Candidate / Company Image
         public FileContentResult UserPhotos()
         {
 
@@ -45,6 +48,14 @@ namespace JobPostingProject.Controllers
 
         }
 
+
+        // AutoComplete Function
+        public JsonResult GetJobsTitle(string search)
+        {
+            List<string> JobsTitles;
+            JobsTitles = db.Announcements.Where(x => x.Title.Contains(search)).Select(y => y.Title).ToList();
+            return new JsonResult { Data = JobsTitles, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
         public ActionResult Index()
         {
             return View();
