@@ -13,6 +13,7 @@ namespace JobPostingProject.Controllers
         // GET: Announcement
         public ActionResult Index(string titleInput, string cityInput, DateTime? date, int? Levels)
         {
+            // Sending the levels the view
             ViewBag.Levels = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
 
             ViewBag.Job = titleInput;
