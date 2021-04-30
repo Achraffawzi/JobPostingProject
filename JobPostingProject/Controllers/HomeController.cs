@@ -56,6 +56,10 @@ namespace JobPostingProject.Controllers
             JobsTitles = db.Announcements.Where(x => x.Title.Contains(search)).Select(y => y.Title).ToList();
             return new JsonResult { Data = JobsTitles, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+        public void summ()
+        {
+
+        }
         public ActionResult Index()
         {
             return View();
