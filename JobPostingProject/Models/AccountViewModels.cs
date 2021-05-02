@@ -45,23 +45,23 @@ namespace JobPostingProject.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Courrier électronique")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Courrier électronique")]
+        [Required(ErrorMessage = "{0} is required")]
+        [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is required")]
         [DataType(DataType.Password)]
-        [Display(Name = "Mot de passe")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Mémoriser le mot de passe ?")]
+        [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
     }
 

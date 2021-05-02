@@ -171,10 +171,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\AuthorizeCreateAnnouncement.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\ApplicationBaseController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CandidateController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -243,6 +246,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Candidate\profileIndex.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
@@ -253,9 +257,11 @@
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.structure.css" />
     <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\loginPartial.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\svgs\undraw_cancel_u1it.svg" />
     <Content Include="Images\UserDefaultImage\defaultImage.jpg" />
     <Content Include="Models\JobPostingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -430,6 +436,9 @@
     <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\Announcement\Details.cshtml" />
     <Content Include="Views\Application\Delete.cshtml" />
+    <Content Include="Views\Candidate\Index.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Announcement\CreateAnnouncement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

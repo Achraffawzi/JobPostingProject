@@ -1,16 +1,38 @@
 ﻿@using Microsoft.AspNet.Identity
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ml-auto mt-0 d-flex" }))
     {
-        @Html.AntiForgeryToken()
-
-        <ul class="navbar navbar-nav ml-auto  justify-contect-end">
-            <li>
-                @Html.ActionLink("Hello " + ViewData["FullName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        @Html.AntiForgeryToken()<ul class="navbar navbar-nav ml-auto justify-contect-end">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Candidate")) {
+                <li class="mr-5">
+                    <a class="" href="@Url.Action("Index", "Application", new { idUser = User.Identity.GetUserId() })">
+                        <i style="font-size: 20px; color: #111;" class="fas fa-briefcase"></i>
+                    </a>
+                </li>
+            }
+            <li class="mr-3">
+                <div class="dropdown">
+                    <img src="@Url.Action("UserPhotos", "Home")" height="48" width="48" class="rounded-circle dropbtn" />
+                    <div class="dropdown-content" style="">
+                        @{
+                            if (User.Identity.IsAuthenticated && User.IsInRole("Candidate"))
+                            {
+                                @Html.ActionLink("Profile", "Index", "Candidate", new { idUser = User.Identity.GetUserId() }, null)
+                                @Html.ActionLink("Settings", "Index", "Manage", new { idUser = User.Identity.GetUserId() }, null)
+                            }
+                            else if (User.Identity.IsAuthenticated && User.IsInRole("Company"))
+                            {
+                                @Html.ActionLink("Profile", "Index", "Company", new { idUser = User.Identity.GetUserId() }, null)
+                                @Html.ActionLink("Settings", "Index", "Manage", new { idUser = User.Identity.GetUserId() }, null)
+                            }
+                        }
+                        <a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a>
+                    </div>
+                </div>
             </li>
-            <li><img src="@Url.Action("UserPhotos", "Home" )" height="48" width="48" style="border-radius:50px;" /></li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
+            <li>@*<a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a>*@</li>
         </ul>
     }
 }
@@ -22,4 +44,10 @@ else
         <li>@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 
     </ul>
+}
+
+@section inlineSite{
+
+    <link rel="stylesheet" href="~/Content/loginPartial.css" type="text/css" />
+
 }

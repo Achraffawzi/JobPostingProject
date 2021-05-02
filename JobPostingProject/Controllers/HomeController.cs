@@ -62,6 +62,7 @@ namespace JobPostingProject.Controllers
         }
         public ActionResult Index()
         {
+            ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
             return View();
         }
     }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using JobPostingProject.Classes;
 using JobPostingProject.Models;
+using Microsoft.AspNet.Identity;
 
 namespace JobPostingProject.Controllers
 {
@@ -11,35 +13,39 @@ namespace JobPostingProject.Controllers
     {
         JobPostingDBEntities1 db = new JobPostingDBEntities1();
         // GET: Announcement
-        public ActionResult Index(string titleInput, string cityInput, DateTime? date, int? Levels)
+        public ActionResult Index(string titleInput, string cityInput, int? Categories, DateTime? dateInf, DateTime? dateSup, int? Levels)
         {
             ViewBag.Levels = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
+            ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
 
             ViewBag.Job = titleInput;
             ViewBag.City = cityInput;
 
-            if (date == null && Levels == null)
+            if (dateInf == null && dateSup == null && Levels == null)
             {
-                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)).ToList();
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.ToLower().Contains(titleInput.ToLower()) && announcement.Location.ToLower().Contains(cityInput.ToLower()) && announcement.CategoryID == Categories).ToList();
                 return View(listAnnouncements);
             }
-            else if (date != null)
+            else if (dateInf != null)
             {
-                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput) && announcement.PublicationDate == date).ToList();
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.ToLower().Contains(titleInput.ToLower()) && announcement.Location.ToLower().Contains(cityInput.ToLower()) && announcement.CategoryID == Categories && announcement.PublicationDate >= dateInf).ToList();
+                return View(listAnnouncements);
+            }
+            else if (dateSup != null)
+            {
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => announcement.Title.ToLower().Contains(titleInput.ToLower()) && announcement.Location.ToLower().Contains(cityInput.ToLower()) && announcement.CategoryID == Categories && announcement.PublicationDate <= dateSup).ToList();
                 return View(listAnnouncements);
             }
             else if (Levels != null)
             {
-                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)) && announcement.LevelID == Levels).ToList();
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.ToLower().Contains(titleInput.ToLower()) && announcement.Location.ToLower().Contains(cityInput.ToLower())) && announcement.CategoryID == Categories &&  announcement.LevelID == Levels).ToList();
                 return View(listAnnouncements);
             }
             else
             {
-                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.Contains(titleInput) && announcement.Location.Contains(cityInput)) && announcement.PublicationDate == date || announcement.LevelID == Levels).ToList();
+                List<Announcement> listAnnouncements = db.Announcements.Where(announcement => (announcement.Title.ToLower().Contains(titleInput.ToLower()) && announcement.Location.ToLower().Contains(cityInput.ToLower())) && announcement.CategoryID == Categories && announcement.PublicationDate <= dateInf && announcement.PublicationDate <= dateSup && announcement.LevelID == Levels).ToList();
                 return View(listAnnouncements);
             }
-
-
         }
 
         // GET: Announcement/Details/5
@@ -48,21 +54,44 @@ namespace JobPostingProject.Controllers
             return View();
         }
 
+        [AuthorizeCreateAnnouncement(Roles = "Company")]
         // GET: Announcement/Create
-        public ActionResult Create()
+        public ActionResult CreateAnnouncement()
         {
+            ViewData["Levels"] = new SelectList(db.Levels.ToList(), "LevelID", "LevelName");
+            ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
+
             return View();
         }
 
         // POST: Announcement/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateAnnouncement(Announcement announcementModel)
         {
             try
             {
-                // TODO: Add insert logic here
+
+                // Find Company whitch will create Annoncement
+                // Todo : find ID of Authocated User/Company
+                string id = HttpContext.User.Identity.GetUserId();
+                var creator = db.Companies.Where(c => c.CompanySecondID.Equals(id)).FirstOrDefault();
+                // TODO: Add insert logic here to Create Announcement
+                string currentDate = DateTime.Now.ToString("dd/MM/yyyy");
+                var newAnnouncement = new Announcement
+                {
+                    Title = announcementModel.Title,
+                    Description = announcementModel.Description,
+                    PublicationDate = Convert.ToDateTime(currentDate),
+                    Location = announcementModel.Location,
+                    LevelID = announcementModel.LevelID,
+                    CategoryID = announcementModel.CategoryID,
+                    CompanyID = creator.CompanyID
+                };
+                db.Announcements.Add(newAnnouncement);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
+
             }
             catch
             {

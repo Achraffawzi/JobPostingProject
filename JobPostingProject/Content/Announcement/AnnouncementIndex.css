@@ -9,17 +9,3 @@ p {
     margin: 0px;
 }
 
-/* Job lists */
-.job {
-    border: 1px solid #ced4da;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.job__datetime,
-.job__company-name {
-    font-size: 14px;
-    font-weight: 200;
-    color: #969494;
-    margin-bottom: 3px;
-}

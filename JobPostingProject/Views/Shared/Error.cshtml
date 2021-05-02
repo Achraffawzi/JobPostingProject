@@ -4,6 +4,25 @@
     ViewBag.Title = "Erreur";
 }
 
-<h1 class="text-danger">Erreur.</h1>
-<h2 class="text-danger">Une erreur s'est produite pendant le traitement de votre demande.</h2>
+<style>
+    .imgError {
+        height: 100%;
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
 
+    .imgContainer {
+        max-width: 500px;
+    }
+</style>
+
+<div class="d-flex flex-column justify-content-center align-items-center mt-4">
+    <div class="imgContainer">
+        <img class="imgError" src="~/Images/svgs/undraw_cancel_u1it.svg" />
+    </div>
+    <div class="mt-4">
+        <h4 class="text-center">Sorry you can't access to this part</h4>
+        @Html.ActionLink("Go To Home Page", "Index", "Home", null, new { @class = "btn btn-primary d-block mt-3" })
+    </div>
+</div>

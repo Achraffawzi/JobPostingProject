@@ -39,7 +39,7 @@ namespace JobPostingProject.Controllers
 
         // POST: Application/Apply
         [HttpPost]
-        public ActionResult AnnouncementDetails(string idUser, int idAnnouncement)
+        public ActionResult Apply(string idUser, int idAnnouncement)
         {
             try
             {
@@ -47,18 +47,38 @@ namespace JobPostingProject.Controllers
 
                 // Search for the candidate that has the same Hash code as idUser param
                 Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
-                
-                
-                Application newApp = new Application
-                {
-                    AnnouncementID = idAnnouncement,
-                    CandidateID = appliedCandidate.CandidateID,
-                    ApplicationDate = DateTime.Now,
-                };
-                db.Applications.Add(newApp);
-                db.SaveChanges();
 
-                return RedirectToAction("Index", "Application", new { idUser = idUser});
+                // todo: check if Candidate is already applyed to job
+                var check = db.Applications.Where(a => a.CandidateID.Equals(appliedCandidate.CandidateID) && a.AnnouncementID.Equals(idAnnouncement)).FirstOrDefault();
+                if (check == null)
+                {
+                    Application newApp = new Application
+                    {
+                        AnnouncementID = idAnnouncement,
+                        CandidateID = appliedCandidate.CandidateID,
+                        ApplicationDate = DateTime.Now,
+                    };
+                    db.Applications.Add(newApp);
+                    db.SaveChanges();
+
+                    return this.Json(new
+                    {
+                        EnableSuccess = true,
+                        SuccessTitle = "Success",
+                        SuccessMsg = "applayed successfully"
+                    });
+                }
+                else
+                {
+
+                    return this.Json(new
+                    {
+                        EnableSuccess = false,
+                        ErrorTitle = "Warning",
+                        ErrorMsg = "You are already applayed for this Job"
+                    });
+                }
+
             }
             catch
             {

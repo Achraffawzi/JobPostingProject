@@ -1,24 +1,35 @@
 ﻿@model JobPostingProject.Models.Announcement
-@using Microsoft.AspNet.Identity;
-@using Microsoft.AspNet.Identity.Owin;
 
 @{
     ViewBag.Title = "AnnouncementDetails";
 }
 
-<h2>AnnouncementDetails</h2>
-
-
-    <div class="job mb-2">
-        <div class="job__header d-flex align-items-center justify-content-between flex-wrap mb-0">
-            <h5 class="job__title">@Model.Title</h5>
-            <h2 class="job__city">@Model.Location</h2>
-        </div>
-        <h5 class="job__datetime">@Model.PublicationDate</h5>
-        <h5 class="job__company-name">@Model.Company.Name</h5>
-        <p class="job__description mt-5 mb-3">@Model.Description</p>
-        <p class="job__apply">
-            
-            @*@Html.ActionLink("Apply Now", "Apply", "Application", null, new { @class = "btn btn-primary", , type = "submit" })*@
-        </p>
+<div class="job mb-2">
+    <div class="job__header d-flex align-items-center justify-content-between flex-wrap mb-0">
+        <h5 class="job__title">@Model.Title</h5>
+        <h2 class="job__city">@Model.Location</h2>
     </div>
+    <h5 class="job__datetime">Posted in @Model.PublicationDate.ToString("dd/MM/yyyy")</h5>
+    <h5 class="job__company-name mb-4">By @Model.Company.Name</h5>
+    <h5>Job Description :</h5>
+    <p class="job__description mt-2 mb-3">@Model.Description</p>
+</div>
+
+@section test {
+    <style>
+        /* Job lists */
+        .job {
+            border: 1px solid #ced4da;
+            border - radius: 10px;
+            padding: 20px;
+        }
+
+        .job__datetime,
+        .job__company - name {
+            font - size: 14px;
+            font - weight: 200;
+            color: #969494;
+            margin - bottom: 3px;
+        }
+    </style>
+}

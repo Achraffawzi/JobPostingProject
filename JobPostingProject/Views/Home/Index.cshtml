@@ -1,33 +1,43 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@model JobPostingProject.Models.Announcement
 
 <!-- search form -->
 @using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
 {
-    <div class="d-flex align-items-center row">
+    <div class="row mb-lg-3">
         <div class="col-lg-5">
             <div class="title">
                 <i class="fas fa-search mr-2"></i>
                 <input type="text" name="titleInput" class="title__input" id="job-title" placeholder="Job Title" />
             </div>
         </div>
+    </div>
+    <div class="row mb-lg-3">
         <div class="col-lg-5">
             <div class="city">
                 <i class="fas fa-map-marker-alt mr-2"></i>
                 <input type="text" name="cityInput" class="city__input" placeholder="Location" />
             </div>
         </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-5">
+            <div class="categorie">
+                @Html.DropDownList("Categories", null, "Job Category", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
         <div class="col-lg-2">
             <div class="search">
                 <input type="submit" value="Search" class="text-white text-decoration-none btn bg-primary search__button" />
-                @*@Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn bg-primary search__button" })*@
             </div>
         </div>
     </div>
     <p class="text-center mt-4">
         You're a company?
-        @Html.ActionLink("Create announcement", "Create", "Announcement", null, new { @class = "text-primary text-decoration-none" })
+        @Html.ActionLink("Create announcement", "CreateAnnouncement", "Announcement", null, new { @class = "text-primary text-decoration-none" })
     </p>
 }
 
@@ -59,6 +69,6 @@
                 })
             }
         })
-       
+
     </script>
 }

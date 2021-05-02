@@ -1,0 +1,82 @@
+﻿@model JobPostingProject.Models.Company
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="profile py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="profile__left-showcase text-center">
+                    <img class="rounded-circle img-fluid d-block mx-auto mb-3" style="width: 250px; height: 250px;" src="@Url.Action("UserPhotos", "Home" )" alt="" />
+                    <h5 class="font-weight-bold">@Model.Name</h5>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="profile__right-showcase">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <h5>
+                                    @Html.DisplayNameFor(model => model.Address)
+                                </h5>
+                                <p class="right-showcase__info">
+                                    @Html.DisplayFor(model => model.Address)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <h5>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </h5>
+                                <p class="right-showcase__info">
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="col-sm">
+                                <div>
+                                    <h5>
+                                        @Html.DisplayNameFor(model => model.City)
+                                    </h5>
+                                    <p class="right-showcase__info">
+                                        @Html.DisplayFor(model => model.City)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div>
+                                <h5>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </h5>
+                                <p class="right-showcase__info">
+                                    @Html.DisplayFor(model => model.Email)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </h5>
+                        <p class="right-showcase__info">
+                            @Html.DisplayFor(model => model.Description)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+</p>

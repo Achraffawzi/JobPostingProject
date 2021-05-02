@@ -3,26 +3,17 @@
 @using Microsoft.AspNet.Identity;
 @using Microsoft.AspNet.Identity.Owin;
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
 <p>
-    @Html.ActionLink("Apply for more jobs", "Index", "Announcement")
+    @Html.ActionLink("Apply for more jobs", "Index", "Announcement", new { idUser = User.Identity.GetUserId() },new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ApplicationDate)
+            Application date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Announcement.Title)
+            Job Title
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Candidate.FirstName)
-            </th>*@
         <th></th>
     </tr>
 
@@ -35,9 +26,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Announcement.Title)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Candidate.FirstName)
-                </td>*@
             <td>
                 @Html.ActionLink("Details", "AnnouncementDetails", "Application", new { idAnnouncement = item.AnnouncementID }, new { @class = "btn btn-primary" }) |
                 @Html.ActionLink("Delete", "Delete", "Application", new { idUser = User.Identity.GetUserId(), id = item.AnnouncementID }, new { @class = "btn btn-danger" })
