@@ -1,9 +1,0 @@
-exception on selectionchanged afted delete emp
-add icons to buttons like search and filter
-
-====================== JOB
-list of applicants of a spec job => joins linq prob => @using File_Folder_Download_MVC.Models
-@model List<FileModel>
-apply now doesn't work when applying to announcement => same id announcement for all of them
-change password => plain Json issue => change the action method name
-add cv and coverletter for applicants => LINQ hint

@@ -88,7 +88,7 @@
                                         </p>
                                         @if (!User.IsInRole("Company"))
                                         {
-                                            <input type="submit" value="Apply Now" class="btn btn-outline-primary submit-btn">
+                                            <input type="button" value="Apply Now" class="btn btn-outline-primary submit-btn">
                                         }
                                     </div>
                                 </div>
@@ -112,11 +112,11 @@
     <script>
         let submitButtons = document.querySelectorAll(".submit-btn");
         for (let i = 0; i < submitButtons.length; i++) {
-            submitButtons[i].addEventListener("submit", (event) => {
-                event.preventDefault();
-                console.log(event);
-                let myForm = submitButtons[0].parentElement.parentElement.parentElement;
+            submitButtons[i].addEventListener("click", (e) => {
+                e.preventDefault();
+                let myForm = submitButtons[i].parentElement.parentElement.parentElement;
                 let action = myForm.getAttribute("action");
+
                 $.ajax({
                     method: "POST",
                     url: action,
@@ -135,7 +135,7 @@
                             swal(
                                 result.ErrorTitle,
                                 result.ErrorMsg,
-                                'warning'
+                                'error'
                             )
                         }
                     },
@@ -144,7 +144,7 @@
                         console.log(err);
                     }
                 })
-            })
+            });
         }
 
     </script>

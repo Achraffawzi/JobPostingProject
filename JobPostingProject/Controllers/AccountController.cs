@@ -243,12 +243,11 @@ namespace JobPostingProject.Controllers
         {
             var userID = User.Identity.GetUserId();
             var currentUser = appDbContext.Users.Where(u => u.Id == userID).FirstOrDefault();
-            bool isChanged = false;
             if (!UserManager.CheckPassword(currentUser, passwordView.CurrentPassword))
             {
                 return this.Json(new
                 {
-                    isChanged
+                    isChanged = false,
                 }, JsonRequestBehavior.AllowGet);
             }
             else
@@ -261,11 +260,10 @@ namespace JobPostingProject.Controllers
                 // Change password to our DB
                 Company company = this.db.Companies.Where(c => c.CompanySecondID == userID).FirstOrDefault();
                 company.Password = passwordView.NewPassword;
-                isChanged = true;
                 db.SaveChanges();
                 return this.Json(new
                 {
-                    isChanged
+                    isChanged = true,
                 }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -533,6 +531,7 @@ namespace JobPostingProject.Controllers
                 Get the role of the current user
                 Remove the role from it
                 delete the user from Aspnetuser
+                delete all the user's files
                 Delete the user from the DB
             */
 
