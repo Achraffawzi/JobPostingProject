@@ -11,7 +11,10 @@ namespace JobPostingProject.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web;
+    using System.Web.Mvc;
+
     public partial class Company
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,12 +28,15 @@ namespace JobPostingProject.Models
         public string Address { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public string Logo { get; set; }
         public string City { get; set; }
         public string PhoneNumber { get; set; }
         public string CompanySecondID { get; set; }
-    
+        [NotMapped]
+        public HttpPostedFileBase LogoFileName { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Announcement> Announcements { get; set; }
     }

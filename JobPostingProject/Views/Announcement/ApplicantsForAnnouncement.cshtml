@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Applicants For Announcement";
+    List<JobPostingProject.Models.ApplicantsViewModel> applicants = ViewBag.Applicants;
+}
+
+<table class="table table-striped text-center">
+    <tr id="theader" class="bg-primary text-white">
+        <th>
+            FirstName
+        </th>
+        <th>
+            LastName
+        </th>
+        <th>
+            Phone Number
+        </th>
+        <th>
+            CV
+        </th>
+        <th>
+            cover letter
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in applicants)
+    {
+        <tr>
+            <td data-label="FirstName">
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td data-label="LastName">
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td data-label="Phone Number">
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            @{
+                if (item.CvFileName == null)
+                {
+                    <td data-label="CV">
+                        <p class="text-secondary">CV not available</p>
+                    </td>
+                }
+                else
+                {
+                    <td data-label="CV">
+                        @Html.ActionLink("Download", "DownloadFile", new { fileName = item.CvFileName })
+                    </td>
+                }
+            }
+            @{
+                if (item.CoverLetterFileName == null)
+                {
+                    <td data-label="Cover letter">
+                        <p class="text-secondary">Cover letter not available</p>
+                    </td>
+                }
+                else
+                {
+                    <td data-label="Cover letter">
+                        @Html.ActionLink("Download", "DownloadFile", new { fileName = item.CoverLetterFileName })
+                    </td>
+                }
+            }
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+    <style>
+        @@media (max-width: 992px) {
+            #theader {
+                display: none;
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+            }
+
+                .table tr {
+                    margin-bottom: 10px;
+                }
+
+                .table td {
+                    text-align: right;
+                    position: relative;
+                }
+
+                    .table td:before {
+                        content: attr(data-label);
+                        position: absolute;
+                        left: 0;
+                        width: 50%;
+                        text-align: left;
+                    }
+        }
+    </style>
+}

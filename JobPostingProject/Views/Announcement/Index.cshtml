@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<JobPostingProject.Models.Announcement>
 
 @using Microsoft.AspNet.Identity;
-@using Microsoft.AspNet.Identity.Owin;
 
 @{
     ViewBag.Title = "List of jobs";
@@ -13,13 +12,13 @@
         <div class="col-lg-3 ">
             <div class="title">
                 <i class="fas fa-search mr-2"></i>
-                <input type="text" name="titleInput" class="title__input form-control" placeholder="Job Title" value="@ViewBag.Job" />
+                <input type="text" name="titleInput" class="title__input form-control border-0" placeholder="Job Title" value="@ViewBag.Job" />
             </div>
         </div>
         <div class="col-lg-3">
             <div class="city">
                 <i class="fas fa-map-marker-alt mr-2"></i>
-                <input type="text" name="cityInput" class="city__input form-control" placeholder="Location" value="@ViewBag.City" />
+                <input type="text" name="cityInput" class="city__input form-control border-0" placeholder="Location" value="@ViewBag.City" />
             </div>
         </div>
         <div class="col-lg-3">
@@ -30,13 +29,13 @@
     </div>
     <div class="row my-4">
         <div class="col-lg-3">
-            <div class="date">
+            <div class="date mb-4">
                 @*<i class="fas fa-search mr-2"></i>*@
                 <input type="date" name="dateInf" class="title__input form-control" style="border: 1px solid #ced4da; padding-left: 10px;" />
             </div>
         </div>
         <div class="col-lg-3">
-            <div class="date">
+            <div class="date mb-4">
                 @*<i class="fas fa-search mr-2"></i>*@
                 <input type="date" name="dateSup" class="title__input form-control" style=" border: 1px solid #ced4da;
         padding-left: 10px;
@@ -50,7 +49,7 @@
         </div>
     </div>
     <div class="search">
-        <input type="submit" class="text-white text-decoration-none btn btn-primary search__button" />
+        <input type="submit" value="Search" class="text-white text-decoration-none btn btn-primary search__button" />
         @*@Html.ActionLink("Search", "Index", "Announcement", null, new { @class = "text-white text-decoration-none btn btn-primary search__button" })*@
     </div>
 }
@@ -60,7 +59,7 @@
 
 <!--list of all jobs searched for-->
 
-<div class="container">
+<div class="container mt-5">
     @{
         if (!Model.Any())
         {
@@ -68,32 +67,28 @@
         }
         else
         {
+            <p class="text-secondary">@ViewBag.TotalResults job results found</p>
             foreach (var item in Model)
             {
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="jobs">
-
                             @using (Html.BeginForm("Apply", "Application", new { idUser = User.Identity.GetUserId(), idAnnouncement = item.AnnouncementID }, FormMethod.Post, new { @class = "w-100 AnnonceForm" }))
                             {
-                                <div class="job mb-2">
+                                <div class="job">
                                     <div class="job__header d-flex align-items-center justify-content-between flex-wrap mb-0">
                                         <h5 class="job__title">@item.Title</h5>
                                         <h2 class="job__city">@item.Location</h2>
                                     </div>
-                                    <h5 class="job__datetime">Posted in @item.PublicationDate.ToString("dd/MM/yyyy")</h5>
+                                    <h5 class="job__datetime">Posted in @item.PublicationDate.ToString("dd/mm/yyyy")</h5>
                                     <h5 class="job__company-name mb-4">By @item.Company.Name</h5>
-                                    <h5>Job Description :</h5>
-                                    <p class="job__description mt-2 mb-3">@item.Description.Substring(0, 200) ...</p>
                                     <div class="job__actions d-flex align-items-center">
-                                        <p class="job__apply mr-2">
+                                        <p class="job__apply my-0 mr-2">
                                             @Html.ActionLink("More details", "AnnouncementDetails", "Application", new { idAnnouncement = item.AnnouncementID }, new { @class = "btn btn-primary" })
                                         </p>
                                         @if (!User.IsInRole("Company"))
                                         {
-                                            <button type="submit" class="btn btn-outline-primary">
-                                                Apply Now
-                                            </button>
+                                            <input type="submit" value="Apply Now" class="btn btn-outline-primary submit-btn">
                                         }
                                     </div>
                                 </div>
@@ -115,35 +110,42 @@
 @section Scripts{
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        $(".AnnonceForm").on("submit", function (e) {
-            e.preventDefault();
-            const action = $(".AnnonceForm").attr("action");
-            $.ajax({
-                method: "POST",
-                url: action,
-                success: function (result) {
-                    console.log(result);
-                    if (result.EnableSuccess) {
-                        swal(
-                            result.SuccessTitle,
-                            result.SuccessMsg,
-                            'success'
-                        )
-                    } else {
-                        swal(
-                            result.ErrorTitle,
-                            result.ErrorMsg,
-                            'warning'
-                        )
+        let submitButtons = document.querySelectorAll(".submit-btn");
+        for (let i = 0; i < submitButtons.length; i++) {
+            submitButtons[i].addEventListener("submit", (event) => {
+                event.preventDefault();
+                console.log(event);
+                let myForm = submitButtons[0].parentElement.parentElement.parentElement;
+                let action = myForm.getAttribute("action");
+                $.ajax({
+                    method: "POST",
+                    url: action,
+                    data: {},
+                    dataType: "json",
+                    success: function (result) {
+                        console.log("entered success 1 block");
+                        if (result.EnableSuccess) {
+                            swal(
+                                result.SuccessTitle,
+                                result.SuccessMsg,
+                                'success'
+                            )
+                        } else {
+                            console.log("entered success 2 block");
+                            swal(
+                                result.ErrorTitle,
+                                result.ErrorMsg,
+                                'warning'
+                            )
+                        }
+                    },
+                    error: function (err) {
+                        console.log("entered error block");
+                        console.log(err);
                     }
-
-
-                },
-                error: function (xhr) {
-                    console.log("Error");
-
-                }
+                })
             })
-        })
+        }
+
     </script>
 }

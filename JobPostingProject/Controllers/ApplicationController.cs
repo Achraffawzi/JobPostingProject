@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using JobPostingProject.Models; 
-
+using JobPostingProject.Models;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace JobPostingProject.Controllers
 {
@@ -19,6 +20,7 @@ namespace JobPostingProject.Controllers
             Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
 
             List<Application> listeOfApplications = db.Applications.Where(a => a.CandidateID == appliedCandidate.CandidateID).ToList();
+            ViewBag.TotalApplicationsCandidate = listeOfApplications.Count();
             return View(listeOfApplications);
         }
         
@@ -39,7 +41,7 @@ namespace JobPostingProject.Controllers
 
         // POST: Application/Apply
         [HttpPost]
-        public ActionResult Apply(string idUser, int idAnnouncement)
+        public JsonResult Apply(string idUser, int idAnnouncement)
         {
             try
             {
@@ -47,6 +49,9 @@ namespace JobPostingProject.Controllers
 
                 // Search for the candidate that has the same Hash code as idUser param
                 Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
+
+                // The returning JSON Object
+                object result = null;
 
                 // todo: check if Candidate is already applyed to job
                 var check = db.Applications.Where(a => a.CandidateID.Equals(appliedCandidate.CandidateID) && a.AnnouncementID.Equals(idAnnouncement)).FirstOrDefault();
@@ -61,28 +66,33 @@ namespace JobPostingProject.Controllers
                     db.Applications.Add(newApp);
                     db.SaveChanges();
 
-                    return this.Json(new
+                    result = new
                     {
                         EnableSuccess = true,
                         SuccessTitle = "Success",
-                        SuccessMsg = "applayed successfully"
-                    });
+                        SuccessMsg = "Your application has been sent successfully!"
+                    };
                 }
                 else
                 {
-
-                    return this.Json(new
+                    result = new
                     {
                         EnableSuccess = false,
                         ErrorTitle = "Warning",
-                        ErrorMsg = "You are already applayed for this Job"
-                    });
+                        ErrorMsg = "You are already applayed for this Job!"
+                    };
                 }
+                return this.Json(result, JsonRequestBehavior.AllowGet);
 
             }
             catch
             {
-                return View();
+                return Json(new
+                {
+                    EnableSuccess = false,
+                    ErrorTitle = "Warning",
+                    ErrorMsg = "Something went wrong!"
+                }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -109,34 +119,40 @@ namespace JobPostingProject.Controllers
         }
 
         // GET: Application/Delete/5
-        public ActionResult Delete(string idUser, int id)
-        {
-            // Search for the candidate that has the same Hash code as idUser param
-            Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
+        //public ActionResult Delete(string idUser, int id)
+        //{
+        //    // Search for the candidate that has the same Hash code as idUser param
+        //    Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
 
-            Application searchedAnnouncement = db.Applications.Where(a => a.CandidateID == appliedCandidate.CandidateID && a.AnnouncementID == id).FirstOrDefault();
-            return View(searchedAnnouncement);
-        }
+        //    Application searchedAnnouncement = db.Applications.Where(a => a.CandidateID == appliedCandidate.CandidateID && a.AnnouncementID == id).FirstOrDefault();
+        //    return View(searchedAnnouncement);
+        //}
 
         // POST: Application/Delete/5
         [HttpPost]
-        public ActionResult Delete(string idUser, int id, FormCollection collection)
+        public ActionResult Delete(int? announcementID)
         {
             try
             {
                 // TODO: Add delete logic here
-                // Search for the candidate that has the same Hash code as idUser param
-                Candidate appliedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(idUser)).FirstOrDefault();
-
-                Application searchedAnnouncement = db.Applications.Where(a => a.CandidateID == appliedCandidate.CandidateID && a.AnnouncementID == id).FirstOrDefault();
-                db.Applications.Remove(searchedAnnouncement);
+                // Get the current logged in candidate
+                string uniqueID = User.Identity.GetUserId();
+                Candidate currentCandidate = this.db.Candidates.FirstOrDefault(c => c.CandidateSecondID == uniqueID);
+                // Get the Application
+                Application deletingApplication = db.Applications.FirstOrDefault(a => a.AnnouncementID == announcementID && a.CandidateID == currentCandidate.CandidateID);
+                db.Applications.Remove(deletingApplication);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { idUser = idUser});
+                return this.Json(new
+                {
+
+                }, JsonRequestBehavior.AllowGet);
+
+                //return RedirectToAction("GetAllAnnouncementDoneBy", new { idUser = User.Identity.GetUserId() }) ;
             }
             catch
             {
-                return View();
+                return RedirectToAction("GetAllAnnouncementDoneBy");
             }
         }
     }

@@ -1,6 +1,13 @@
-﻿body {
+﻿.right-showcase__info {
+    font-size: 14px;
 }
 
-.right-showcase__info {
-    font-size: 14px;
+@media only screen and (max-width: 767px) {
+    .navbar-logo {
+        flex: 1;
+    }
+
+    .navbar {
+        justify-content: flex-start;
+    }
 }

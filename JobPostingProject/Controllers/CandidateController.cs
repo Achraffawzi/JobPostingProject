@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JobPostingProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace JobPostingProject.Controllers
 {
     public class CandidateController : ApplicationBaseController
     {
         JobPostingDBEntities1 db = new JobPostingDBEntities1();
+        ApplicationDbContext appDb = new ApplicationDbContext();
         // GET: Candidate
         public ActionResult Index(string idUser)
         {
@@ -49,25 +53,114 @@ namespace JobPostingProject.Controllers
         }
 
         // GET: Candidate/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string idUser)
         {
-            return View();
+            // Get the candidateID with the hash code idUser
+            Candidate editingCandidate = this.db.Candidates.Where(c => c.CandidateSecondID == idUser).FirstOrDefault();
+            CandidateEditProfileViewModel editVM = new CandidateEditProfileViewModel
+            {
+                CandidateSecondID = editingCandidate.CandidateSecondID,
+                FirstName = editingCandidate.FirstName,
+                LastName = editingCandidate.LastName,
+                DateOfBirth = editingCandidate.DateOfBirth,
+                Address = editingCandidate.Address,
+                PhoneNumber = editingCandidate.PhoneNumber,
+                Bio = editingCandidate.Bio,
+            };
+            ViewBag.UniqueID = idUser;
+            return View(editVM);
         }
 
         // POST: Candidate/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CandidateEditProfileViewModel model) // Ealash CandidateSecondID tayji null men view?
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                // Get the email of current candidate
+                string userHashID = User.Identity.GetUserId();
+                var currentCandidate = db.Candidates.Where(c => c.CandidateSecondID == userHashID).FirstOrDefault();
+                // Update logic goes here
+                var folderPath = Server.MapPath("~/Data/Candidate/" + currentCandidate.Email);
+                byte[] imageData = null;
+                string fullPathInServer = "~/Data/Candidate/" + currentCandidate.Email + "/";
 
-                return RedirectToAction("Index");
+                // Save Cv In Server Side 
+                if (model.CvFileName != null)
+                {
+                    string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
+                    string cvFileExtension = Path.GetExtension(model.CvFileName.FileName);
+                    string _cvFileName = cvFileName + cvFileExtension;
+                    model.Cv = fullPathInServer + _cvFileName;
+                    _cvFileName = Path.Combine(Server.MapPath(fullPathInServer), _cvFileName);
+                    model.CvFileName.SaveAs(_cvFileName);
+                }
+
+                // Save Photo In Server Side 
+                if (model.PhotoFileName != null)
+                {
+                    string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
+                    string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
+                    string _photoFileName = photoFileName + photoFileExtension;
+                    model.Photo = fullPathInServer + _photoFileName;
+                    _photoFileName = Path.Combine(Server.MapPath(fullPathInServer), _photoFileName);
+                    model.PhotoFileName.SaveAs(_photoFileName);
+
+                    // Todo: convert the user uploaded Photo as Byte Array before save to DB/ ApplicationDbContext => AspNetUserTable
+
+                    if (Request.Files.Count > 0)
+                    {
+                        HttpPostedFileBase fileBase = Request.Files["PhotoFileName"];
+                        using (var binary = new BinaryReader(fileBase.InputStream))
+                        {
+                            imageData = binary.ReadBytes(fileBase.ContentLength);
+                        }
+                    }
+                }
+
+                // Save Cover Letter In Server Side 
+                if (model.CoverLetterFileName != null)
+                {
+                    string coverLetterFileName = Path.GetFileNameWithoutExtension(model.CoverLetterFileName.FileName);
+                    string coverLetterFileExtension = Path.GetExtension(model.CoverLetterFileName.FileName);
+                    string _coverLetterFileName = coverLetterFileName + coverLetterFileExtension;
+                    model.CoverLetter = fullPathInServer + _coverLetterFileName;
+                    _coverLetterFileName = Path.Combine(Server.MapPath(fullPathInServer), _coverLetterFileName);
+                    model.CoverLetterFileName.SaveAs(_coverLetterFileName);
+                }
+
+
+                // Updating candidate info in the identity DbContext
+                var updatedUser = appDb.Users.Where(u => u.Id.Equals(userHashID)).FirstOrDefault();
+
+                updatedUser.FirstName = model.FirstName;
+                updatedUser.LastName = model.LastName;
+
+                appDb.SaveChanges();
+
+                if (model.PhotoFileName != null)
+                {
+                    updatedUser.UserPhoto = imageData;
+                }
+
+                // Updating candidate info in our DB
+                Candidate updatedCandidate = db.Candidates.Where(c => c.CandidateSecondID.Equals(userHashID)).FirstOrDefault();
+                updatedCandidate.FirstName = model.FirstName;
+                updatedCandidate.LastName = model.LastName;
+                updatedCandidate.Address = model.Address;
+                updatedCandidate.Bio = model.Bio;
+                updatedCandidate.DateOfBirth = model.DateOfBirth;
+                updatedCandidate.PhoneNumber = model.PhoneNumber;
+                updatedCandidate.Photo = model.Photo;
+                updatedCandidate.Cv = model.Cv;
+                updatedCandidate.CoverLetter = model.CoverLetter;
+
+                db.SaveChanges();
+
+
+                return RedirectToAction("Index", "Candidate", new { idUser = User.Identity.GetUserId() });
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: Candidate/Delete/5

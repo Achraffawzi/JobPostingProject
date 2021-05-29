@@ -3,9 +3,7 @@
 }
 /* Form */
 form {
-    width: 1000px;
-    max-width: 90vw;
-    margin: 80px auto 0;
+    margin-top: 80px;
 }
 
 .title, .city {

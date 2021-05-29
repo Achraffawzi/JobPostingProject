@@ -27,12 +27,12 @@ namespace JobPostingProject.Controllers
                     {
                         ViewData["FullName"] = user.FirstName;
                     }
-                    else if((user.FirstName.Equals(user.LastName) && isCandidate) || (!user.FirstName.Equals(user.LastName) && isCandidate))
+                    else if ((user.FirstName.Equals(user.LastName) && isCandidate) || (!user.FirstName.Equals(user.LastName) && isCandidate))
                     {
                         string fullName = String.Concat(new string[] { user.FirstName, " ", user.LastName });
                         ViewData["FullName"] = fullName;
-                    }   
-                        
+                    }
+
                 }
 
             }

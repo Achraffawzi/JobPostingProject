@@ -92,6 +92,7 @@ namespace JobPostingProject.Models
 
         [Required(ErrorMessage = "{0} is required")]
         [Display(Name = "About You")]
+        [AllowHtml]
         public string Bio { get; set; }
 
         //[Required(ErrorMessage = "{0} is required")]
@@ -128,7 +129,26 @@ namespace JobPostingProject.Models
         public HttpPostedFileBase PhotoFileName { get; set; }
     }
 
-   
+    public class ChangePasswordViewModelCandidate
+    {
+        public int Id { get; set; }
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = "{0} must have at less {2} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current Password")]
+        public string CurrentPassword { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = "{0} must have at less {2} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New Password ")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Password not match")]
+        public string ConfirmNewPassword { get; set; }
+    }
 
     public class RegisterViewModelCompany
     {
@@ -148,6 +168,7 @@ namespace JobPostingProject.Models
 
         [Required(ErrorMessage = "{0} is required")]
         [Display(Name = "Description")]
+        [AllowHtml]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
@@ -176,6 +197,28 @@ namespace JobPostingProject.Models
         public string ConfirmPassword { get; set; }
 
         public HttpPostedFileBase LogoFileName { get; set; }
+    }
+
+    public class ChangePasswordViewModelCompany
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = "{0} must have at less {2} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current Password")]
+        public string CurrentPassword { get; set; }
+
+        [Required(ErrorMessage = "{0} is required")]
+        [StringLength(100, ErrorMessage = "{0} must have at less {2} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New Password ")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Password not match")]
+        public string ConfirmNewPassword { get; set; }
     }
 
     public class ResetPasswordViewModel

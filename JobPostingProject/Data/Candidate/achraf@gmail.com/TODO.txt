@@ -1,0 +1,11 @@
+exception on deleting an emp
+add icons to buttons like search and filter
+on textChange search input
+align the logo
+
+====================== JOB
+list of applicants of a spec job => joins linq prob
+apply now doesn't work when applying to announcement => same id announcement for all of them
+change password => plain Json issue
+edit profile for candidate error
+send Message

@@ -1,0 +1,10 @@
+exception on deleting an emp
+add icons to buttons like search and filter
+
+
+====================== JOB
+job details Raw HTML prob
+delete sweetalert in candidate all job he applied
+apply now doesn't work
+chartjs stats
+list of applicants of a spec job

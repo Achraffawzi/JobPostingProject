@@ -1,5 +1,9 @@
 ﻿@model JobPostingProject.Models.Announcement
 
+@{
+    ViewBag.Title = "Home Page";
+}
+
 <!-- search form -->
 @using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
 {
@@ -41,7 +45,24 @@
     </p>
 }
 
+<hr />
+<h3 class="text-center text-primary my-5">Statistics about the applications</h3>
 
+<!-- Statistics section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="stat">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="stat">
+                <canvas id="myPieChart" style="height: 262px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section Home {
@@ -49,17 +70,103 @@
 }
 
 @section Scripts {
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+            $.ajax({
+
+                type: "POST",
+                url: "/Home/GetJobPortionByCategory",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (xhr) {
+                    var data = xhr;
+                    var partitions = data[0];
+                    var categoryNames = data[1];
+                    var ctx = $("#myChart").get(0).getContext("2d");
+                    var myNewChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: categoryNames,
+                            datasets: [{
+                                //label: categoryNames,
+                                data: partitions,
+                                fill: false,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)'
+                                ]
+                            }]
+                        }
+                        ,
+                        options: {
+                            responsive: true,
+                            title: { display: true, text: 'Jobs\' partitions by job category' },
+                            legend: { display: true, },
+                            legend: {
+                                display: false,
+                            }
+                        },
+
+                    });
+                },
+                failure: function (err) {
+                    console.log(err);
+                }
+            });
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Home/GetJobPortionByLevel",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (xhr) {
+                var data = xhr;
+                var partitions = data[0];
+                var levelNames = data[1];
+                var ctx = $("#myPieChart").get(0).getContext("2d");
+                var myNewChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: levelNames,
+                        datasets: [{
+                            data: partitions,
+                            fill: false,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                            ]
+                        }]
+                    }
+                    ,
+                    options: {
+                        responsive: true,
+                        title: { display: true, text: 'Jobs\' partitions by job level' },
+                        legend: { display: true, },
+                    }
+                });
+            },
+            failure: function (err) {
+                console.log(err);
+            }
+        });
+
+
         // Todo: Add autocomplete Functionalty For Job TextBox
         $("#job-title").autocomplete({
-            source: function (request, response){
+            source: function (request, response) {
                 $.ajax({
                     url: '@Url.Action("GetJobsTitle","Home")',
-                    dataType:'json',
+                    dataType: 'json',
                     data: { search: $("#job-title").val() },
-                    success: function(data){
+                    success: function (data) {
                         response($.map(data, function (item) {
-                            return { label:  item }
+                            return { label: item }
                         }));
                         console.log(data);
                     },
@@ -68,7 +175,6 @@
                     }
                 })
             }
-        })
-
+        });
     </script>
 }

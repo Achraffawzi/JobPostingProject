@@ -1,0 +1,135 @@
+﻿@model IEnumerable<JobPostingProject.Models.Announcement>
+
+@{
+    ViewBag.Title = "GetAllAnnouncementDoneBy";
+}
+
+<p>
+    @Html.ActionLink("Create new announcement", "CreateAnnouncement", null, new { @class = "btn btn-primary" })
+</p>
+
+<p class="text-secondary">Your have created @ViewBag.TotalAnnouncements job announcements</p>
+
+<table class="table table-striped text-center">
+    <tr id="theader" class="bg-primary text-white">
+        <th>
+            Job Title
+        </th>
+        <th>
+            Publication Date
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Level
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td data-label="Job Title">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td data-label="Publication Date">
+                @item.PublicationDate.ToString("dd/MM/yyyy")
+            </td>
+            <td data-label="Location">
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td data-label="Category">
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td data-label="Level">
+                @Html.DisplayFor(modelItem => item.Level.LevelName)
+            </td>
+            <td data-label="Actions">
+                <input type="button" value="Delete" class="deleteAnnouncementBtn btn btn-danger btn-sm" data-helper="@(item.AnnouncementID)" />
+                @Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementID }, new { @class = "btn btn-secondary btn-sm" })
+                @Html.ActionLink("Details", "Details", new { id = item.AnnouncementID }, new { @class = "btn btn-primary btn-sm" })
+                @Html.ActionLink("Applicants", "ApplicantsForAnnouncement", new { id = item.AnnouncementID }, new { @class = "btn btn-primary btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts {
+    <style>
+        @@media (max-width: 992px) {
+            #theader {
+                display: none;
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+            }
+
+                .table tr {
+                    margin-bottom: 10px;
+                }
+
+                .table td {
+                    text-align: right;
+                    position: relative;
+                }
+
+                    .table td:before {
+                        content: attr(data-label);
+                        position: absolute;
+                        left: 0;
+                        width: 50%;
+                        text-align: left;
+                    }
+        }
+    </style>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+
+        let deleteButtons = document.querySelectorAll('.deleteAnnouncementBtn');
+
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener("click", (ev) => {
+
+                var id = ev.target.attributes.getNamedItem('data-helper').value; // idAnnouncement = 14
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to get back this announcement",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        var link = '@Url.Action("Delete", "Announcement", new { announcementID = "0" })';
+                        link = link.replace("0", id);
+                        $.ajax({
+                            method: "POST",
+                            url: link, // 'Announcement/Delete'
+                            data: { /*announcementID = id*/ },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function () {
+                                swal("Deleted!", "You have successfully deleted this job announcement! please try reloading the page for the updated results", "success");
+                            },
+                            error: function (err) { console.log(err); },
+                        });
+                    }
+                    else {
+                        swal("Announcement not deleted");
+                    }
+                });
+
+            });
+        }
+    </script>
+}

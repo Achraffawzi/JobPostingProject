@@ -1,0 +1,24 @@
+﻿@model JobPostingProject.Models.Candidate
+
+@{
+    ViewBag.Title = "Delete Account";
+}
+
+@if (ViewData["ResultMessage"] != null)
+{
+    <p class="alert alert-danger">@ViewData["ResultMessage"]</p>
+}
+
+<h3 class="mb-0">Are you sure you want to delete your account?</h3>
+<span class="text-danger d-block mb-4">Please note that you won't be able to recover your account back!</span>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete Account" class="btn btn-danger" />
+        @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+    }
+</div>

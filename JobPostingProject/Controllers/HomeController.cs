@@ -63,7 +63,54 @@ namespace JobPostingProject.Controllers
         public ActionResult Index()
         {
             ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
+            ViewBag.CategoeyNames = this.db.Categories.Select(c => c.CategoryName).Distinct().ToArray();
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetJobPortionByCategory()
+        {
+
+            List<Category> categories = this.db.Categories.ToList();
+            List<double> partitions = new List<double>();
+            double totalAnnouncements = this.db.Announcements.Count();
+            double count = 0.0;
+            double value;
+            foreach (var cat in categories)
+            {
+                count = this.db.Announcements.Where(a => a.CategoryID == cat.CategoryID).Count();
+                value = (count / totalAnnouncements) * 100.00 ;
+                partitions.Add(Math.Round(value));
+            }
+
+            List<object> iData = new List<object>();
+            iData.Add(partitions);
+            iData.Add(categories.Select(c => c.CategoryName));
+
+            return Json(iData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetJobPortionByLevel()
+        {
+
+            List<Level> levels = this.db.Levels.ToList();
+            List<double> partitions = new List<double>();
+            double totalAnnouncements = this.db.Announcements.Count();
+            double count = 0.0;
+            double value;
+            foreach (var lev in levels)
+            {
+                count = this.db.Announcements.Where(a => a.LevelID == lev.LevelID).Count();
+                value = (count / totalAnnouncements) * 100.00;
+                partitions.Add(Math.Round(value));
+            }
+
+            List<object> iData = new List<object>();
+            iData.Add(partitions);
+            iData.Add(levels.Select(l => l.LevelName));
+
+            return Json(iData, JsonRequestBehavior.AllowGet);
         }
     }
 }

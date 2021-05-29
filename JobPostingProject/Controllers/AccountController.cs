@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JobPostingProject.Models;
 using System.IO;
+using System.Collections.Generic;
 
 namespace JobPostingProject.Controllers
 {
@@ -91,7 +92,7 @@ namespace JobPostingProject.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Tentative de connexion non valide.");
+                    ModelState.AddModelError("", "Incorrect email or password.");
                     return View(model);
             }
         }
@@ -168,7 +169,7 @@ namespace JobPostingProject.Controllers
                     string fullPathInServer = "~/Data/Companies/" + model.Email + "/";
 
                     // Get file info of the logo
-                    if(model.LogoFileName != null)
+                    if (model.LogoFileName != null)
                     {
                         string logoFileName = Path.GetFileNameWithoutExtension(model.LogoFileName.FileName);
                         string logoFileExtension = Path.GetExtension(model.LogoFileName.FileName);
@@ -199,7 +200,7 @@ namespace JobPostingProject.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, "company");
-                    
+
 
                     // Add new company to the database
                     Company newCompany = new Company
@@ -230,6 +231,43 @@ namespace JobPostingProject.Controllers
 
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
             return View(model);
+        }
+
+        public ActionResult ChangePasswordCompany()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePasswordCompanyAJAX(ChangePasswordViewModelCompany passwordView)
+        {
+            var userID = User.Identity.GetUserId();
+            var currentUser = appDbContext.Users.Where(u => u.Id == userID).FirstOrDefault();
+            bool isChanged = false;
+            if (!UserManager.CheckPassword(currentUser, passwordView.CurrentPassword))
+            {
+                return this.Json(new
+                {
+                    isChanged
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                // Change password to AspNetUser
+                var newHashedPassword = UserManager.PasswordHasher.HashPassword(passwordView.NewPassword);
+                currentUser.PasswordHash = newHashedPassword;
+                appDbContext.Entry(currentUser).State = System.Data.Entity.EntityState.Modified;
+                appDbContext.SaveChanges();
+                // Change password to our DB
+                Company company = this.db.Companies.Where(c => c.CompanySecondID == userID).FirstOrDefault();
+                company.Password = passwordView.NewPassword;
+                isChanged = true;
+                db.SaveChanges();
+                return this.Json(new
+                {
+                    isChanged
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [AllowAnonymous]
@@ -274,20 +312,18 @@ namespace JobPostingProject.Controllers
                     // Save Cv In Server Side 
                     if (model.CvFileName != null)
                     {
-
                         string cvFileName = Path.GetFileNameWithoutExtension(model.CvFileName.FileName);
                         string cvFileExtension = Path.GetExtension(model.CvFileName.FileName);
                         string _cvFileName = cvFileName + cvFileExtension;
                         model.CV = fullPathInServer + _cvFileName;
                         _cvFileName = Path.Combine(Server.MapPath(fullPathInServer), _cvFileName);
                         model.CvFileName.SaveAs(_cvFileName);
-                        
+
                     }
 
                     // Save Photo In Server Side 
                     if (model.PhotoFileName != null)
                     {
-
                         string photoFileName = Path.GetFileNameWithoutExtension(model.PhotoFileName.FileName);
                         string photoFileExtension = Path.GetExtension(model.PhotoFileName.FileName);
                         string _photoFileName = photoFileName + photoFileExtension;
@@ -321,7 +357,7 @@ namespace JobPostingProject.Controllers
                 }
 
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
 
                 if (model.PhotoFileName != null)
                 {
@@ -329,7 +365,7 @@ namespace JobPostingProject.Controllers
                 }
 
                 var result = await UserManager.CreateAsync(user, model.Password);
-               
+
                 if (result.Succeeded)
                 {
                     var res = await UserManager.AddToRoleAsync(user.Id, "candidate");
@@ -374,6 +410,170 @@ namespace JobPostingProject.Controllers
 
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
             return View(model);
+        }
+
+        public ActionResult ChangePasswordCandidate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult ChangePasswordCandidateAJAX(ChangePasswordViewModelCandidate passwordView)
+        {
+            var userID = User.Identity.GetUserId();
+            var currentUser = appDbContext.Users.Where(u => u.Id == userID).FirstOrDefault();
+            if (!UserManager.CheckPassword(currentUser, passwordView.CurrentPassword))
+            {
+                return Json(new
+                {
+                    isChanged = false,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                // Change password to AspNetUser
+                var newHashedPassword = UserManager.PasswordHasher.HashPassword(passwordView.NewPassword);
+                currentUser.PasswordHash = newHashedPassword;
+                appDbContext.Entry(currentUser).State = System.Data.Entity.EntityState.Modified;
+                appDbContext.SaveChanges();
+                // Change password to our DB
+                Candidate candidate = this.db.Candidates.Where(c => c.CandidateSecondID == userID).FirstOrDefault();
+                candidate.Password = passwordView.NewPassword;
+                db.SaveChanges();
+                return Json(new
+                {
+                    isChanged = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // Delete user account
+        public ActionResult DeleteAccountCompany()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        async public Task<ActionResult> DeleteAccountCompany(string id)
+        {
+            try
+            {
+                // Signout first
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                /*
+                TODO :
+                Search for the user
+                Get the role of the current user
+                Remove the role from it
+                delete the user from Aspnetuser
+                delete all the user's files
+                Delete the user from the DB
+            */
+
+                // Get the current logged in company
+                string userID = User.Identity.GetUserId();
+                // Get the role of the current user
+                var affectedRoles = await UserManager.GetRolesAsync(userID);
+                // Search for the user
+                var user = await UserManager.FindByIdAsync(userID);
+                // Remove the role from it
+                foreach (var role in affectedRoles)
+                {
+                    var result = await UserManager.RemoveFromRolesAsync(userID, role);
+                }
+                // delete the user from Aspnetuser
+                await UserManager.DeleteAsync(user);
+
+                // Delete all the files associated with the current logged in user
+                Company currentCompany = this.db.Companies.FirstOrDefault(c => c.CompanySecondID == userID);
+                var folderPath = Server.MapPath("~/Data/Companies/" + currentCompany.Email);
+                if (Directory.Exists(folderPath))
+                {
+                    Directory.Delete(folderPath, true);
+                }
+
+                // Delete the user from the DB
+                // First we need to delete all the annoucements done by the current logged in company
+                List<Announcement> deletingAnnouncements = this.db.Announcements.Where(a => a.CompanyID == currentCompany.CompanyID).ToList();
+                foreach (var item in deletingAnnouncements)
+                {
+                    this.db.Announcements.Remove(item);
+                    this.db.SaveChanges();
+                }
+                this.db.Companies.Remove(currentCompany);
+                await this.db.SaveChangesAsync();
+
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                ViewData["ResultMessage"] = "Something went wrong!";
+                return View();
+            }
+        }
+
+        public ActionResult DeleteAccountCandidate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        async public Task<ActionResult> DeleteAccountCandidate(string id)
+        {
+            try
+            {
+                // Signout first
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                /*
+                TODO :
+                Search for the user
+                Get the role of the current user
+                Remove the role from it
+                delete the user from Aspnetuser
+                Delete the user from the DB
+            */
+
+                // Get the current logged in company
+                string userID = User.Identity.GetUserId();
+                // Get the role of the current user
+                var affectedRoles = await UserManager.GetRolesAsync(userID);
+                // Search for the user
+                var user = await UserManager.FindByIdAsync(userID);
+                // Remove the role from it
+                foreach (var role in affectedRoles)
+                {
+                    var result = await UserManager.RemoveFromRolesAsync(userID, role);
+                }
+                // delete the user from Aspnetuser
+                await UserManager.DeleteAsync(user);
+
+                // Delete all the files associated with the current logged in user
+                Candidate currentCandidate = this.db.Candidates.FirstOrDefault(c => c.CandidateSecondID == userID);
+                var folderPath = Server.MapPath("~/Data/Candidate/" + currentCandidate.Email);
+                if (Directory.Exists(folderPath))
+                {
+                    Directory.Delete(folderPath, true);
+                }
+                // Delete the user from the DB
+                // First we need to delete all the annoucements done by the current logged in company
+                List<Application> deletingApplications = this.db.Applications.Where(a => a.CandidateID == currentCandidate.CandidateID).ToList();
+                foreach (var item in deletingApplications)
+                {
+                    this.db.Applications.Remove(item);
+                    this.db.SaveChanges();
+                }
+                this.db.Candidates.Remove(currentCandidate);
+                await this.db.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                ViewData["ResultMessage"] = "Something went wrong!";
+                return View();
+            }
         }
 
         //

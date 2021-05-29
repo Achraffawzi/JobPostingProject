@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,12 +201,14 @@
     <Compile Include="Models\Announcement.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicantsViewModel.cs" />
     <Compile Include="Models\Application.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Candidate.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CandidateEditProfileViewModel.cs" />
     <Compile Include="Models\Category.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
@@ -263,6 +266,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\svgs\undraw_cancel_u1it.svg" />
     <Content Include="Images\UserDefaultImage\defaultImage.jpg" />
+    <Content Include="Logo.jpg" />
     <Content Include="Models\JobPostingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>JobPostingModel.edmx</DependentUpon>
@@ -280,6 +284,7 @@
     <Content Include="Models\JobPostingModel.edmx.diagram">
       <DependentUpon>JobPostingModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Project_Avatar_png.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -439,12 +444,24 @@
     <Content Include="Views\Candidate\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Announcement\CreateAnnouncement.cshtml" />
+    <Content Include="Views\Announcement\GetAllAnnouncementDoneBy.cshtml" />
+    <Content Include="Views\Announcement\Edit.cshtml" />
+    <Content Include="Views\Announcement\Delete.cshtml" />
+    <Content Include="Views\Announcement\Edit2.cshtml" />
+    <Content Include="Views\Candidate\Edit.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Account\ChangePasswordCandidate.cshtml" />
+    <Content Include="Views\Account\ChangePasswordCompany.cshtml" />
+    <Content Include="Views\Account\DeleteAccountCompany.cshtml" />
+    <Content Include="Views\Account\DeleteAccountCandidate.cshtml" />
+    <Content Include="Views\Announcement\ApplicantsForAnnouncement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\Candidate\" />
     <Folder Include="Data\Companies\" />
     <Folder Include="Views\ApplicationBase\" />
+    <Folder Include="Views\Statistic\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

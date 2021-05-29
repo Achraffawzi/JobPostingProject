@@ -8,47 +8,6 @@
     box-sizing: border-box;
 }
 
-/*.navbar {
-    justify-content: space-between;
-}
-
-.main-navbar {
-    flex: 1;
-}
-
-.navbar-light .navbar-toggler {
-    border-color: transparent;
-}
-
-.navbar-light .navbar-brand {
-    color: #5672ff;
-    font-weight: 500;
-    font-size: 26px;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: #000;
-    font-weight: 400;
-    font-size: 16px;
-    display: inline-block;
-}
-
-.nav-link:hover,
-.nav-item.active > .nav-link {*/
-/* color: rgba(0,0,0,.9); */
-/*color: #5672ff !important;
-    border-bottom: 2px solid #5672ff;
-}
-
-.nav-item {
-    margin: 0 10px;
-}
-
-.nav-item:first-of-type {
-    margin-right: auto;
-}*/
-
-
 input[type="file"] {
     padding: .375rem .75rem;
     border: 1px solid #ced4da;
@@ -67,25 +26,38 @@ input[type="file"] {
     position: absolute;
     right: 0;
     background-color: #f1f1f1;
-    min-width: 160px;
+    min-width: 185px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 
-    /* Links inside the dropdown */
-    .dropdown-content a {
-        color: black;
-        padding: 5px 15px;
-        text-decoration: none;
-        display: block;
+    .dropdown-content > div {
+        padding: 5px;
     }
+
+    .dropdown-content > div:hover {
+        background-color: #007bff !important;
+        
+    }
+
+        .dropdown-content > div:hover > * {
+            color: #fff;
+        }
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            flex: 1;
+            color: black;
+            padding: 5px 15px;
+            text-decoration: none;
+            display: block;
+        }
 
         /* Change color of dropdown links on hover */
         .dropdown-content a:hover {
-            background-color: #007bff !important;
-            color: #fff;
         }
-
+.dropdown:hover {
+    cursor: pointer;
+}
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
@@ -105,4 +77,8 @@ input[type="file"] {
     font-weight: 200;
     color: #969494;
     margin-bottom: 3px;
+}
+
+.navbar {
+    justify-content: flex-start;
 }

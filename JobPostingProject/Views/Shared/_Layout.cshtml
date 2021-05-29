@@ -9,47 +9,96 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - HireMe</title>
-    @Scripts.Render("~/bundles/modernizr")
-    @*@Styles.Render("~/Content/css")*@
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/Site.css">
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
     @*@RenderSection("inlineSite", false)*@
     @RenderSection("Home", false)
     @RenderSection("test", false)
     @RenderSection("AnnouncementIndex", false)
     @RenderSection("profileIndex", false)
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@Url.Content("~/Home/Index")">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-primary" href="@Url.Content("~/Home/Index")">Search for a job</a>
-                    @*@Html.ActionLink("Search for a job", "Index", "Announcement", new { @class = "nav-link text-primary" })*@
-                </li>
-            </ul>
-            <div class="form-inline my-2 my-lg-0">
-
-                @Html.Partial("_LoginPartial")
-            </div>
+    <nav class="main-navbar navbar-light bg-light mb-5" style="box-shadow: 0px 5px 14px -10px rgb(0 0 0 / 87%);">
+        <div class="d-flex align-items-center justify-content-start container">
+            <a class="navbar-brand navbar-logo" style="" href="@Url.Content("~/Home/Index")">
+                <img src="~/Logo.jpg" style="width: 80px;" alt="HireMe Logo" />
+            </a>
+            <a class="nav-link text-primary" href="@Url.Content("~/Home/Index")">Search for a job</a>
+            @Html.Partial("_LoginPartial")
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <div class="mr-3">
+                        <div class="dropdown">
+                            <img src="@Url.Action("UserPhotos", "Home")" height="40" width="40" class="rounded-circle dropbtn" />
+                            <div class="dropdown-content" style="">
+                                @{
+                                    if (User.Identity.IsAuthenticated && User.IsInRole("Candidate"))
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user-alt"></i>
+                                            @Html.ActionLink("Profile", "Index", "Candidate", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user-edit"></i>
+                                            @Html.ActionLink("Edit Profile", "Edit", "Candidate", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-lock"></i>
+                                            @Html.ActionLink("Change password", "ChangePasswordCandidate", "Account", null, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-lock"></i>
+                                            @Html.ActionLink("Delete account", "DeleteAccountCandidate", "Account", null, new { @class = "text-decoration-none" })
+                                        </div>
+                                    }
+                                    else if (User.Identity.IsAuthenticated && User.IsInRole("Company"))
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user-alt"></i>
+                                            @Html.ActionLink("Profile", "Index", "Company", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user-edit"></i>
+                                            @Html.ActionLink("Edit Profile", "Edit", "Company", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-lock"></i>
+                                            @Html.ActionLink("Change password", "ChangePasswordCompany", "Account", null, new { @class = "text-decoration-none" })
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-lock"></i>
+                                            @*<a class="text-decoration-none" href="javascript:document.getElementById('logoutForm').submit()">Delete Account</a>*@
+                                            @Html.ActionLink("Delete account", "DeleteAccountCompany", "Account", null, new { @class = "text-decoration-none" })
+                                        </div>
+                                    }
+                                }
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <a class="text-decoration-none" href="javascript:document.getElementById('logoutForm').submit()">Sign out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
     </div>
-    <footer style="background-color: #e7e8e8 !important; padding-top: 50px; margin-top: 80px;">
+    <footer style="background-color: #dfe2e2 !important;
+        padding-top: 50px;
+        margin-top: 80px;">
         <div class="container">
             <div class="row mb-4">
                 <div class="col-lg-6">
                     <div class="about-us">
                         <h4>About us</h4>
-                        <p>HireMe a job searching website where you can find thousands of job offers all over the world to increase your chances to find the most suitable job for you and help you get your life to the next level</p>
+                        <p class="text-secondary">HireMe a job searching website where you can find thousands of job offers all over the world to increase your chances to find the most suitable job for you and help you get your life to the next level</p>
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -59,18 +108,22 @@
                             <li>
                                 @Html.ActionLink("Search for a job", "Index", "Home", new { @class = "text-decoration-none" })
                             </li>
-                            <li>
-                                @Html.ActionLink("Post a New Job Offer", "CreateAnnouncement", "Announcement", new { @class = "text-decoration-none" })
-                            </li>
+
                             @{
                                 if (User.Identity.IsAuthenticated && User.IsInRole("Candidate"))
                                 {
                                     <li>
                                         @Html.ActionLink("Check out your profile", "Index", "Candidate", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
                                     </li>
+                                    <li>
+                                        @Html.ActionLink("My applications", "Index", "Application", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
+                                    </li>
                                 }
                                 else if (User.Identity.IsAuthenticated && User.IsInRole("Company"))
                                 {
+                                    <li>
+                                        <a href="@Url.Action("CreateAnnouncement", "Announcement")" class="text-decoration-none">Post a New Job Offer</a>
+                                    </li>
                                     <li>
                                         @Html.ActionLink("Check out your profile", "Index", "Company", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
                                     </li>
@@ -81,17 +134,17 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="footer__social-media">
-                        <h3>Social medias</h3>
-                        <span class="d-block">
-                            Achraf FAWZI : <a href="https://www.linkedin.com/in/achraf-fawzi-dev/"><i class="fab fa-linkedin-in"></i></a> <a href="https://github.com/Achraffawzi"><i class="fab fa-github"></i></a>
+                        <h4>Social medias</h4>
+                        <span class="d-block text-secondary mb-2">
+                            Achraf FAWZI : <a href="https://www.linkedin.com/in/achraf-fawzi-dev/" class=" mr-2"><i class="fab fa-linkedin-in" style="font-size: 20px;"></i></a> <a href="https://github.com/Achraffawzi"><i style="font-size: 20px;" class="fab fa-github"></i></a>
                         </span>
-                        <span class="d-block">
-                            Jamal IDAISSA : <a href="https://www.linkedin.com/in/jamal-id-aissa-94a19417b/"><i class="fab fa-linkedin-in"></i></a> <a href="https://github.com/ID-JA"><i class="fab fa-github"></i></a>
+                        <span class="d-block text-secondary">
+                            Jamal IDAISSA : <a href="https://www.linkedin.com/in/jamal-id-aissa-94a19417b/" class="mr-2"><i class="fab fa-linkedin-in" style="font-size: 20px;"></i></a> <a href="https://github.com/ID-JA"><i style="font-size: 20px;" class="fab fa-github"></i></a>
                         </span>
                     </div>
                 </div>
             </div>
-            <p style="margin-bottom: 10px;">&copy; @DateTime.Now.Year - All Rights Reserved To The HireMe Company</p>
+            <p class="text-secondary mb-2">&copy; @DateTime.Now.Year - All Rights Reserved To The HireMe Company</p>
         </div>
     </footer>
 
@@ -100,9 +153,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
+    <script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
-

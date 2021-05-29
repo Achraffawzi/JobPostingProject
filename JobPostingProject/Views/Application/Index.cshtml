@@ -3,34 +3,119 @@
 @using Microsoft.AspNet.Identity;
 @using Microsoft.AspNet.Identity.Owin;
 
-<p>
-    @Html.ActionLink("Apply for more jobs", "Index", "Announcement", new { idUser = User.Identity.GetUserId() },new { @class = "btn btn-primary" })
+<p class="mt-4">
+    @Html.ActionLink("Apply for more jobs", "Index", "Announcement", new { idUser = User.Identity.GetUserId() }, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
+<p class="text-secondary">You have applied to @ViewBag.TotalApplicationsCandidate job applications</p>
+<table class="table table-striped text-center">
+    <tr id="theader" class="bg-primary text-white">
         <th>
             Application date
         </th>
         <th>
             Job Title
         </th>
-        <th></th>
+        <th>
+            Actions
+        </th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Announcement.Title)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "AnnouncementDetails", "Application", new { idAnnouncement = item.AnnouncementID }, new { @class = "btn btn-primary" }) |
-                @Html.ActionLink("Delete", "Delete", "Application", new { idUser = User.Identity.GetUserId(), id = item.AnnouncementID }, new { @class = "btn btn-danger" })
-            </td>
-        </tr>
+    @{ if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td data-label="Application date">
+                        @Html.DisplayFor(modelItem => item.ApplicationDate)
+                    </td>
+                    <td data-label="Job Title">
+                        @Html.DisplayFor(modelItem => item.Announcement.Title)
+                    </td>
+                    <td data-label="Actions">
+                        <input type="button" value="Delete" class="deleteAnnouncementBtn btn btn-danger" data-helper="@(item.AnnouncementID)" />
+                        @Html.ActionLink("Details", "AnnouncementDetails", "Application", new { idAnnouncement = item.AnnouncementID }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">
+                    <p class="text-center text-secondary">You haven't applied to any job yet!</p>
+                </td>
+            </tr>
+        }
     }
 
 </table>
+
+@section Scripts {
+    <style>
+        @@media (max-width: 767px) {
+            #theader {
+                display: none;
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .table tr {
+                margin-bottom: 10px;
+            }
+
+            .table td {
+                text-align: right;
+                position: relative;
+            }
+
+                .table td:before {
+                    content: attr(data-label);
+                    position: absolute;
+                    left: 0;
+                    width: 50%;
+                    text-align: left;
+                }
+        }
+    </style>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+
+        let deleteButtons = document.querySelectorAll('.deleteAnnouncementBtn');
+
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener("click", (ev) => {
+
+                var id = ev.target.attributes.getNamedItem('data-helper').value; // idAnnouncement = 14
+                swal({
+                    title: "Are you sure your want to delete this application?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        var link = '@Url.Action("Delete", "Application", new { announcementID = "0" })';
+                        link = link.replace("0", id);
+                        $.ajax({
+                            url: link, // 'Announcement/Delete'
+                            type: "POST",
+                            data: { /*announcementID = id*/ },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function () {
+                                swal("Application has been deleted successfully! Please reload the page!");
+                            },
+                            error: function (err) { console.log(err); console.log("erro te"); },
+                        });
+                    }
+                    else {
+                        swal("Application not deleted");
+                    }
+                })
+            });
+        }
+    </script>
+}

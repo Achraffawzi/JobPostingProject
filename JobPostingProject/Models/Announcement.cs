@@ -12,6 +12,7 @@ namespace JobPostingProject.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public partial class Announcement
     {
@@ -23,6 +24,7 @@ namespace JobPostingProject.Models
     
         public int AnnouncementID { get; set; }
         public string Title { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public System.DateTime PublicationDate { get; set; }
         public string Location { get; set; }

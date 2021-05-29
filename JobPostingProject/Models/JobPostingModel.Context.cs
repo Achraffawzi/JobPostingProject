@@ -32,5 +32,11 @@ namespace JobPostingProject.Models
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+
+        public System.Data.Entity.DbSet<JobPostingProject.Models.ChangePasswordViewModelCandidate> ChangePasswordViewModelCandidates { get; set; }
+
+        public System.Data.Entity.DbSet<JobPostingProject.Models.ChangePasswordViewModelCompany> ChangePasswordViewModelCompanies { get; set; }
+
+        public System.Data.Entity.DbSet<JobPostingProject.Models.ApplicantsViewModel> ApplicantsViewModels { get; set; }
     }
 }

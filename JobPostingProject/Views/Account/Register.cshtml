@@ -3,7 +3,7 @@
     ViewBag.Title = "Register as Candidate";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 class="mt-4">@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "form-register" }))
 {
@@ -17,9 +17,9 @@
                 <div class="form-group ">
                     @*@Html.LabelFor(m => m.FirstName, new { @class = "control-label" })*@
                     @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Fist Name", id = "fName" })
-                    @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                 </div>
-     
+
             </div>
         </div>
         <div class="form-group col-md">
@@ -30,7 +30,7 @@
                     @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name", id = "lName" })
                     @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
                     @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
 
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
                     @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Phone Number" })
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
-                
+
             </div>
         </div>
         <div class="form-group col-md">
@@ -78,10 +78,10 @@
             <div class="col-md">
                 <div class="form-group ">
                     @*@Html.LabelFor(m => m.Email, new { @class = "control-label" })*@
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -89,10 +89,11 @@
         <div class="col-md">
             <div class="form-group ">
                 @*@Html.LabelFor(m => m.Bio, new { @class = "control-label" })*@
-                @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", placeholder = "Bio", style = "height:230px" })
+                @*@Html.TextAreaFor(m => m.Bio, new { @class = "form-control", placeholder = "Bio", style = "height:230px" })*@
+                @Html.TextAreaFor(model => model.Bio, new { @class = "ckeditor", placeholder = "Bio" })
                 @Html.ValidationMessageFor(m => m.Bio, "", new { @class = "text-danger" })
             </div>
-           
+
         </div>
     </div>
 
@@ -149,10 +150,16 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
-    $("#form-register").submit(function () {
-        localStorage.setItem("firstName", $("#fName").val());
-        localStorage.setItem("lastName", $("#lName").val());
-    })
-</script>
+    <script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor 4
+        // instance, using default configuration.
+        CKEDITOR.replace('Description');
+    </script>
+    <script>
+        $("#form-register").submit(function () {
+            localStorage.setItem("firstName", $("#fName").val());
+            localStorage.setItem("lastName", $("#lName").val());
+        })
+    </script>
 }

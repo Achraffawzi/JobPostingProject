@@ -47,7 +47,8 @@
                             @Html.DisplayNameFor(model => model.Bio)
                         </h5>
                         <p class="right-showcase__info">
-                            @Html.DisplayFor(model => model.Bio)
+                            @*@Html.DisplayFor(model => model.Bio)*@
+                            @Html.Raw(HttpUtility.HtmlDecode(Model.Bio))
                         </p>
                     </div>
                     <div>

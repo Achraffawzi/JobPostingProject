@@ -4,7 +4,7 @@
     ViewBag.Title = "Log in";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 class="mt-4 mb-3">@ViewBag.Title.</h2>
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
@@ -41,7 +41,7 @@
                 </div>
                 <p>
                     Don't have an account? 
-                    @Html.ActionLink("Register here!", "Register")
+                    @Html.ActionLink("Register here!", "Register", null, new { @class = "text-decoration-none" })
                 </p>
                 @* Activez ceci une fois que vous avez activé la confirmation du compte pour la fonctionnalité de réinitialisation du mot de passe
                     <p>
