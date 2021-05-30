@@ -250,7 +250,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Candidate\profileIndex.css" />
+    <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\Home.css" />
+    <Content Include="Content\images\pang-yuhao-OPwYu6nhWFc-unsplash.jpg" />
+    <Content Include="Content\images\sean-pollock-PhYq704ffdA-unsplash.jpg" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -293,6 +296,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\fontawesome.min.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -315,6 +319,7 @@
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.countTo.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -455,13 +460,13 @@
     <Content Include="Views\Account\DeleteAccountCompany.cshtml" />
     <Content Include="Views\Account\DeleteAccountCandidate.cshtml" />
     <Content Include="Views\Announcement\ApplicantsForAnnouncement.cshtml" />
+    <Content Include="Views\Announcement\InitialIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\Candidate\" />
     <Folder Include="Data\Companies\" />
     <Folder Include="Views\ApplicationBase\" />
-    <Folder Include="Views\Statistic\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

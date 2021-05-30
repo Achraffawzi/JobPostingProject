@@ -2,54 +2,23 @@
 
 @{
     ViewBag.Title = "Home Page";
+    List<int> totalAll = (List<int>)ViewBag.TotalEverything;
 }
 
-<!-- search form -->
-@using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
-{
-    <div class="row mb-lg-3">
-        <div class="col-lg-5">
-            <div class="title">
-                <i class="fas fa-search mr-2"></i>
-                <input type="text" name="titleInput" class="title__input" id="job-title" placeholder="Job Title" />
-            </div>
-        </div>
+@* Banner *@
+<div class="banner">
+    <div class="container text-center">
+        <h1>we design your future!</h1>
+        <p>get yourself the best oportunity of your life and apply for your dream job now!</p>
+        @Html.ActionLink("Search for a job", "InitialIndex", "Announcement", new { }, new { @class = "search-btn text-decoration-none" })
     </div>
-    <div class="row mb-lg-3">
-        <div class="col-lg-5">
-            <div class="city">
-                <i class="fas fa-map-marker-alt mr-2"></i>
-                <input type="text" name="cityInput" class="city__input" placeholder="Location" />
-            </div>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-lg-5">
-            <div class="categorie">
-                @Html.DropDownList("Categories", null, "Job Category", new { @class = "form-control" })
-            </div>
-        </div>
-    </div>
+</div>
 
-
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="search">
-                <input type="submit" value="Search" class="text-white text-decoration-none btn bg-primary search__button" />
-            </div>
-        </div>
-    </div>
-    <p class="text-center mt-4">
-        You're a company?
-        @Html.ActionLink("Create announcement", "CreateAnnouncement", "Announcement", null, new { @class = "text-primary text-decoration-none" })
-    </p>
-}
-
-<hr />
-<h3 class="text-center text-primary my-5">Statistics about the applications</h3>
+@* Job categories available *@
 
 <!-- Statistics section -->
-<div class="container mt-5">
+<h3 class="text-center text-primary my-5">Statistics about the applications</h3>
+<div class="container my-5">
     <div class="row">
         <div class="col-lg-6 mb-4 mb-lg-0">
             <div class="stat">
@@ -63,6 +32,63 @@
         </div>
     </div>
 </div>
+@* features counter up *@
+<div class="features text-center py-5">
+    <div class="container">
+        <div class="row">
+            @* Total candidates *@
+            <div class="col-md-6 col-lg-3">
+                <div class="feature total-candidates">
+                    <i class="fas fa-users"></i>
+                    <span class="d-block candidates-counter"></span>
+                    <span class="d-block">Total Candidates</span>
+                </div>
+            </div>
+            @* Total companies *@
+            <div class="col-md-6 col-lg-3">
+                <div class="feature total-companies">
+                    <i class="fas fa-building"></i>
+                    <span class="d-block companies-counter"></span>
+                    <span class="d-block">Total Companies</span>
+                </div>
+            </div>
+            @* Total applications *@
+            <div class="col-md-6 col-lg-3">
+                <div class="feature total-applications">
+                    <i class="fas fa-paper-plane"></i>
+                    <span class="d-block applications-counter"></span>
+                    <span class="d-block">Total Applications</span>
+                </div>
+            </div>
+            @* Total announcements *@
+            <div class="col-md-6 col-lg-3">
+                <div class="feature total-announcements">
+                    <i class="fas fa-copy"></i>
+                    <span class="d-block announcements-counter"></span>
+                    <span class="d-block">Total Announcements</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* All job categories available *@
+<div class="text-center job-categories">
+    <div class="container">
+        <h3 class="text-primary pt-4">Our job categories list</h3>
+        <div class="row">
+            @foreach (var item in ViewBag.Categories)
+            {
+                <div class="col-md-4 col-lg-2 my-4">
+                    <div class="category bg-white text-center border-primary border-top border-left border-bottom border-right">
+                        <span class="text-primary">@item.CategoryName</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 
 
 @section Home {
@@ -71,7 +97,11 @@
 
 @section Scripts {
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="~/Scripts/jquery.countTo.js"></script>
     <script>
+        $(document).ready(function () {
+            var once = true;
+        });
             $.ajax({
 
                 type: "POST",
@@ -156,25 +186,50 @@
             }
         });
 
+        var once = true;
+        $(window).on("scroll", function () {
+            if (isScrolledIntoView($(".features")) && once) {
+                once = false;
+                // Adding the countTo functionality
+                $(".candidates-counter").countTo({
+                    from: 0,
+                    to: @(totalAll[0]),
+                    speed: 3000,
+                });
 
-        // Todo: Add autocomplete Functionalty For Job TextBox
-        $("#job-title").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '@Url.Action("GetJobsTitle","Home")',
-                    dataType: 'json',
-                    data: { search: $("#job-title").val() },
-                    success: function (data) {
-                        response($.map(data, function (item) {
-                            return { label: item }
-                        }));
-                        console.log(data);
-                    },
-                    error: (xhr, status, error) => {
-                        console.log("Error");
-                    }
-                })
+                $(".companies-counter").countTo({
+                    from: 0,
+                    to: @(totalAll[1]),
+                    speed: 2000,
+                });
+
+                $(".applications-counter").countTo({
+                    from: 0,
+                    to: @(totalAll[2]),
+                    speed: 2000,
+                });
+
+                $(".announcements-counter").countTo({
+                    from: 0,
+                    to: @(totalAll[3]),
+                    speed: 2000,
+                });
             }
         });
+
+        function isScrolledIntoView(elem) {
+            var $elem = $(elem);
+            var $window = $(window);
+
+            var docViewTop = $window.scrollTop();
+            var docViewBottom = docViewTop + $window.height();
+
+            var elemTop = $elem.offset().top;
+            var elemBottom = elemTop + $elem.height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+
     </script>
 }

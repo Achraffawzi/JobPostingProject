@@ -60,10 +60,18 @@ namespace JobPostingProject.Controllers
         {
 
         }
+
+        
         public ActionResult Index()
         {
-            ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
-            ViewBag.CategoeyNames = this.db.Categories.Select(c => c.CategoryName).Distinct().ToArray();
+            // Get the total of all features
+            List<int> totalEverything = new List<int>();
+            totalEverything.Add(this.db.Candidates.Count());
+            totalEverything.Add(this.db.Companies.Count());
+            totalEverything.Add(this.db.Applications.Count());
+            totalEverything.Add(this.db.Announcements.Count());
+            ViewData["TotalEverything"] = totalEverything;
+            ViewBag.Categories = this.db.Categories.ToList();
             return View();
         }
 
@@ -112,5 +120,7 @@ namespace JobPostingProject.Controllers
 
             return Json(iData, JsonRequestBehavior.AllowGet);
         }
+
+        
     }
 }

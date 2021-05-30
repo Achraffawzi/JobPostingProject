@@ -1,36 +1,78 @@
 ﻿* {
     font-family: sans-serif;
 }
-/* Form */
-form {
-    margin-top: 80px;
-}
-
-.title, .city {
-    border: 1px solid #ced4da;
-    padding: 0 10px;
-    border-radius: 6px;
+/* Banner */
+.banner {
+    background-image: linear-gradient(rgba(107, 107, 252, .6), rgba(107, 107, 252, .6)), url('images/pang-yuhao-OPwYu6nhWFc-unsplash.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+    height: 500px;
+    margin-top: -48px;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
-.title__input, .city__input {
-    border: none;
-    outline: none;
-    padding: 10px 0;
-    flex: 1;
-}
+    .banner > .container > h1 {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 65px;
+    }
 
-@media only screen and (max-width: 991px) {
-    .title, .city {
-        margin-bottom: 20px;
+@media only screen and (max-width: 767px) {
+    .banner > .container > h1 {
+        font-size: 35px;
     }
 }
 
-.search__button {
-    padding: 10px 20px;
+.search-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 13px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    transition: background-color .3s linear, color .3s linear;
 }
 
-.fas {
-    color: #5672ff;
+    .search-btn:hover {
+        background: #fff;
+        color: dodgerblue;
+    }
+
+/* Features counter Up */
+.features {
+    background-image: linear-gradient(rgba(107, 107, 252, .6), rgba(107, 107, 252, .6)), url('images/sean-pollock-PhYq704ffdA-unsplash.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #fff;
 }
+
+.feature > i {
+    font-size: 40px;
+}
+
+.feature > span:first-of-type {
+    font-size: 30px;
+}
+
+@media only screen and (max-width: 767px) {
+    .feature {
+        margin-bottom: 50px;
+    }
+}
+
+/*Job categories*/
+.category {
+    transition: background-color .3s linear, color .3s linear;
+}
+
+    .category:hover {
+        background-color: dodgerblue;
+        color: #fff;
+    }

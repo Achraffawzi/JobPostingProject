@@ -54,6 +54,14 @@ namespace JobPostingProject.Controllers
             }
         }
 
+        // Get the view for the search for jobs form
+        public ActionResult InitialIndex()
+        {
+            ViewData["Categories"] = new SelectList(db.Categories.ToList(), "CategoryID", "CategoryName");
+            ViewBag.CategoeyNames = this.db.Categories.Select(c => c.CategoryName).Distinct().ToArray();
+            return View();
+        }
+
         // Action to display all the announcements done by the current company
         public ActionResult GetAllAnnouncementDoneBy(string idUser)
         {
