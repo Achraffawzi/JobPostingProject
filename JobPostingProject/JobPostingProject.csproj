@@ -445,14 +445,11 @@
     <Content Include="Views\Application\AnnouncementDetails.cshtml" />
     <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\Announcement\Details.cshtml" />
-    <Content Include="Views\Application\Delete.cshtml" />
     <Content Include="Views\Candidate\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Announcement\CreateAnnouncement.cshtml" />
     <Content Include="Views\Announcement\GetAllAnnouncementDoneBy.cshtml" />
     <Content Include="Views\Announcement\Edit.cshtml" />
-    <Content Include="Views\Announcement\Delete.cshtml" />
-    <Content Include="Views\Announcement\Edit2.cshtml" />
     <Content Include="Views\Candidate\Edit.cshtml" />
     <Content Include="Views\Company\Edit.cshtml" />
     <Content Include="Views\Account\ChangePasswordCandidate.cshtml" />

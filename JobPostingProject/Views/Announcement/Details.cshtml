@@ -3,11 +3,8 @@
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>Details</h2>
-
-
 <div class="container">
+    <h2>Details</h2>
     <div class="row">
         <div class="col-lg-8">
             <div class="jobs">
@@ -20,12 +17,6 @@
                     <p class="job__description mt-5 mb-3">@Html.Raw(HttpUtility.HtmlDecode(@Model.Description))</p>
                     <p class="text-secondary job__level">Level : @Model.Level.LevelName</p>
                     <p class="text-secondary job__category">Category : @Model.Category.CategoryName</p>
-                    <p class="job__apply">
-                        @*<button type="submit" class="btn btn-primary">
-                More Details
-            </button>*@
-                        @*@Html.ActionLink("Apply Now", "Apply", "Application", null, new { @class = "btn btn-primary", , type = "submit" })*@
-                    </p>
                 </div>
             </div>
         </div>

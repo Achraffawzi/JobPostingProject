@@ -6,7 +6,7 @@
     ViewBag.Title = "List of jobs";
 }
 
-@using (Html.BeginForm("Index", "Announcement", FormMethod.Get))
+@using (Html.BeginForm("Index", "Announcement", FormMethod.Get, new { @class = "container" }))
 {
     <div class="row mb-3">
         <div class="col-lg-3 ">
@@ -103,7 +103,6 @@
 </div>
 
 @section AnnouncementIndex {
-    <link href="@Url.Content("~/Content/Home.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Announcement/AnnouncementIndex.css")" rel="stylesheet" type="text/css" />
 }
 
