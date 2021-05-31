@@ -1,0 +1,127 @@
+﻿@model JobPostingProject.Models.ContactsViewModel
+
+
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+@* Banner *@
+<section class="contact-banner text-center text-white">
+    <div class="container">
+        <h1>Get in touch!</h1>
+        <p>want to get in touch? we'd love to hear from you. Here's how you canreach us...</p>
+    </div>
+</section>
+
+@* contact methods *@
+<section class="contact-methods text-center" style="margin-top: -104px;">
+    <div class="container">
+        <div class="row mx-auto">
+            <div class="col-md-6 offset-lg-3 col-lg-3">
+                <div class="contact-method d-flex flex-column align-items-center justify-content-center">
+                    <i style="font-size: 30px;" class="fas fa-envelope mb-2"></i>
+                    <span>Gmail at HireMe@gmail.com</span>
+                </div>
+            </div>
+            <div class=" col-md-6 col-lg-3">
+                <div class="contact-method d-flex flex-column align-items-center justify-content-center">
+                    <i style="font-size: 30px;" class="fas fa-phone mb-2"></i>
+                    <span>Phone at +212612345678</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* Contact form section *@
+<section class="contact-form">
+    <div class="container">
+        <h3 class="mb-5 text-primary text-center">Send us a message</h3>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.TextAreaFor(model => model.Message, new { @class = "form-control", rows = "6" })
+                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type="password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Send" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <style>
+        /* Banner */
+        .contact-banner {
+            background-image: linear-gradient(to bottom, rgb(36 36 255 / 60%), rgba(107, 107, 252, .6)), url(../../Content/images/contact-us-banner.jpg);
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            color: #fff;
+            height: 400px;
+            margin-top: -48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-method {
+            background: #fff;
+            color: dimgray;
+            padding: 80px 0;
+        }
+
+        .contact-banner > .container > h1 {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 65px;
+        }
+
+        @@media only screen and (max-width: 767px) {
+            .contact-banner > .container > h1 {
+                font-size: 35px;
+            }
+
+            .responsive-margin {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+}

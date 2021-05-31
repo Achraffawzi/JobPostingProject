@@ -29,20 +29,36 @@
     }
 }
 
-.search-btn {
+.search-btn,
+.contact-btn {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 13px;
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
+    
     transition: background-color .3s linear, color .3s linear;
 }
 
-    .search-btn:hover {
-        background: #fff;
-        color: dodgerblue;
-    }
+.search-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.contact-btn {
+    background: #fd5833;
+    color: #fff;
+    border: 1px solid #fd5833;
+}
+
+.search-btn:hover {
+    background: #fff;
+    color: dodgerblue;
+}
+
+.contact-btn:hover {
+    background: #da4b2b;
+    color: #fff;
+}
 
 /* Features counter Up */
 .features {

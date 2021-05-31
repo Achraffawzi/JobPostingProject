@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using JobPostingProject.Models;
@@ -121,6 +123,34 @@ namespace JobPostingProject.Controllers
             return Json(iData, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public ActionResult SendEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendEmail(ContactsViewModel contact)
+        {
+            try {
+                var mail = new MailMessage();
+                var loginInfo = new NetworkCredential(contact.Email, contact.Password);
+                mail.From = new MailAddress(contact.Email);
+                mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
+                mail.Subject = contact.Subject;
+                mail.Body = contact.Message;
+
+                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = loginInfo;
+                smtpClient.Send(mail);
+            }
+            catch
+            {
+
+            }
+            //ViewBag.Message = "Your message has been sent successfully!";
+            return View();
+        }
     }
 }

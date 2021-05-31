@@ -215,6 +215,7 @@
     <Compile Include="Models\Company.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContactsViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JobPostingModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -252,6 +253,7 @@
     <Content Include="Content\Candidate\profileIndex.css" />
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\Home.css" />
+    <Content Include="Content\images\contact-us-banner.jpg" />
     <Content Include="Content\images\pang-yuhao-OPwYu6nhWFc-unsplash.jpg" />
     <Content Include="Content\images\sean-pollock-PhYq704ffdA-unsplash.jpg" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
@@ -458,6 +460,7 @@
     <Content Include="Views\Account\DeleteAccountCandidate.cshtml" />
     <Content Include="Views\Announcement\ApplicantsForAnnouncement.cshtml" />
     <Content Include="Views\Announcement\InitialIndex.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
