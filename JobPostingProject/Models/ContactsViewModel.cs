@@ -8,14 +8,14 @@ namespace JobPostingProject.Models
 {
     public class ContactsViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         public string Subject { get; set; }
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         public string Message { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is required.")]
         [Display(Name = "Gmail Password")]
         public string Password { get; set; }
     }

@@ -92,7 +92,7 @@ namespace JobPostingProject.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Incorrect email or password.");
+                    ModelState.AddModelError("", "Email or password incorrect.");
                     return View(model);
             }
         }
@@ -135,7 +135,7 @@ namespace JobPostingProject.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Code non valide.");
+                    ModelState.AddModelError("", "Invalide code.");
                     return View(model);
             }
         }

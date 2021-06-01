@@ -132,18 +132,25 @@ namespace JobPostingProject.Controllers
         public ActionResult SendEmail(ContactsViewModel contact)
         {
             try {
-                var mail = new MailMessage();
-                var loginInfo = new NetworkCredential(contact.Email, contact.Password);
-                mail.From = new MailAddress(contact.Email);
-                mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
-                mail.Subject = contact.Subject;
-                mail.Body = contact.Message;
+                if(ModelState.IsValid)
+                {
+                    var mail = new MailMessage();
+                    var loginInfo = new NetworkCredential(contact.Email, contact.Password);
+                    mail.From = new MailAddress(contact.Email);
+                    mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
+                    mail.Subject = contact.Subject;
+                    mail.Body = contact.Message;
 
-                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = loginInfo;
-                smtpClient.Send(mail);
+                    var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Credentials = loginInfo;
+                    smtpClient.Send(mail);
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {

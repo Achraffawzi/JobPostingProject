@@ -48,11 +48,11 @@
                                             @Html.ActionLink("Edit Profile", "Edit", "Candidate", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-lock"></i>
+                                            <i class="fas fa-key"></i>
                                             @Html.ActionLink("Change password", "ChangePasswordCandidate", "Account", null, new { @class = "text-decoration-none" })
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-lock"></i>
+                                            <i class="fas fa-trash-alt"></i>
                                             @Html.ActionLink("Delete account", "DeleteAccountCandidate", "Account", null, new { @class = "text-decoration-none" })
                                         </div>
                                     }
@@ -67,12 +67,11 @@
                                             @Html.ActionLink("Edit Profile", "Edit", "Company", new { idUser = User.Identity.GetUserId() }, new { @class = "text-decoration-none" })
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-lock"></i>
+                                            <i class="fas fa-key"></i>
                                             @Html.ActionLink("Change password", "ChangePasswordCompany", "Account", null, new { @class = "text-decoration-none" })
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <i class="fas fa-lock"></i>
-                                            @*<a class="text-decoration-none" href="javascript:document.getElementById('logoutForm').submit()">Delete Account</a>*@
+                                            <i class="fas fa-trash-alt"></i>
                                             @Html.ActionLink("Delete account", "DeleteAccountCompany", "Account", null, new { @class = "text-decoration-none" })
                                         </div>
                                     }

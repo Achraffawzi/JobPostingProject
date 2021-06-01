@@ -32,36 +32,38 @@ input[type="file"] {
 }
 
     .dropdown-content > div {
-        padding: 5px;
+        padding: 0 5px;
+        font-size: 14px;
+        color: dimgray;
     }
 
-    .dropdown-content > div:hover {
-        background-color: #007bff !important;
-        
-    }
+        .dropdown-content > div:hover {
+            background-color: #007bff !important;
+        }
 
-        .dropdown-content > div:hover > * {
-            color: #fff;
-        }
-        /* Links inside the dropdown */
-        .dropdown-content a {
-            flex: 1;
-            color: black;
-            padding: 5px 15px;
-            text-decoration: none;
-            display: block;
-        }
+            .dropdown-content > div:hover > * {
+                color: #fff;
+            }
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        flex: 1;
+        color: black;
+        padding: 5px 15px;
+        text-decoration: none;
+        display: block;
+    }
 
         /* Change color of dropdown links on hover */
         .dropdown-content a:hover {
         }
+
 .dropdown:hover {
     cursor: pointer;
 }
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 
 
 /* Job lists */
