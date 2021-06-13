@@ -1,63 +1,90 @@
 ﻿@using JobPostingProject.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Log in now";
 }
 
-<div class="container">
-    <h2 class="mt-4 mb-3">@ViewBag.Title.</h2>
-    <div class="row">
-        <div class="col-md-8">
-            <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
+<div class="log-in-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal d-flex flex-column justify-content-center", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger " })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+                            <div class="col-md-7">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control sign-in-input", placeholder = "Email" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger " })
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Log in" class="btn btn-primary" />
+                        <div class="form-group">
+                            <div class="col-md-7">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control sign-in-input", placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <p>
-                        Don't have an account?
-                        @Html.ActionLink("Register here!", "Register", null, new { @class = "text-decoration-none" })
-                    </p>
-                    @* Activez ceci une fois que vous avez activé la confirmation du compte pour la fonctionnalité de réinitialisation du mot de passe
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-7">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Log in" class="btn btn-primary" />
+                            </div>
+                        </div>
                         <p>
-                            @Html.ActionLink("Vous avez oublié votre mot de passe ?", "ForgotPassword")
-                        </p>*@
-                }
-            </section>
-        </div>
-        @*<div class="col-md-4">
-                <section id="socialLoginForm">
-                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                            Don't have an account?
+                            @Html.ActionLink("Register here!", "Register", null, new { @class = "text-decoration-none" })
+                        </p>
+                        @* Activez ceci une fois que vous avez activé la confirmation du compte pour la fonctionnalité de réinitialisation du mot de passe
+                            <p>
+                                @Html.ActionLink("Vous avez oublié votre mot de passe ?", "ForgotPassword")
+                            </p>*@
+                    }
                 </section>
-            </div>*@
+            </div>
+            @*<div class="col-md-4">
+                    <section id="socialLoginForm">
+                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    </section>
+                </div>*@
+        </div>
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <style>
+        .log-in-banner {
+            margin-top: -3rem;
+            background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2)), url(../../leone-venter-VieM9BdZKFo-unsplash.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            height: calc(100vh - 58px);
+            padding-top: 100px;
+        }
+        .sign-in-input {
+            border: none;
+            border-bottom: 2px solid #007bff;
+            background: rgba(247, 244, 244, 0.6);
+            border-radius: 0%;
+        }
+
+            .sign-in-input:focus {
+                background: rgba(247, 244, 244, 0.6);
+                outline: none;
+            }
+        footer {
+            display: none;
+        }
+    </style>
 }

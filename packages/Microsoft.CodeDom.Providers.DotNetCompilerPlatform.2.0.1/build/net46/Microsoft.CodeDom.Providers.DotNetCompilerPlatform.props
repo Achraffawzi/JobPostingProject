@@ -28,9 +28,7 @@
     </ItemGroup>
   </Target>
   <Target Name="CheckIfShouldKillVBCSCompiler">
-    <CheckIfVBCSCompilerWillOverride src="$(RoslynToolPath)\VBCSCompiler.exe" dest="$(RoslynToolsDestinationFolder)\VBCSCompiler.exe">
-      <Output TaskParameter="WillOverride" PropertyName="ShouldKillVBCSCompiler" />
-    </CheckIfVBCSCompilerWillOverride>
+
   </Target>
   <Target Name = "KillVBCSCompilerBeforeCopy" BeforeTargets="CopyRoslynCompilerFilesToOutputDirectory" DependsOnTargets="LocateRoslynToolsDestinationFolder;CheckIfShouldKillVBCSCompiler" >
     <KillProcess ProcessName="VBCSCompiler" ImagePath="$(RoslynToolsDestinationFolder)" Condition="'$(ShouldKillVBCSCompiler)' == 'True'" />
