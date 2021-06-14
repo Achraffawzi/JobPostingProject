@@ -14,9 +14,5 @@ namespace JobPostingProject.Models
         public string Subject { get; set; }
         [Required(ErrorMessage = "{0} is required.")]
         public string Message { get; set; }
-
-        [Required(ErrorMessage = "{0} is required.")]
-        [Display(Name = "Gmail Password")]
-        public string Password { get; set; }
     }
 }

@@ -131,11 +131,10 @@ namespace JobPostingProject.Controllers
         [HttpPost]
         public ActionResult SendEmail(ContactsViewModel contact)
         {
-            try {
                 if(ModelState.IsValid)
                 {
                     var mail = new MailMessage();
-                    var loginInfo = new NetworkCredential(contact.Email, contact.Password);
+                    var loginInfo = new NetworkCredential("achrafawzi2000@gmail.com", "Lufthansa224$");
                     mail.From = new MailAddress(contact.Email);
                     mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
                     mail.Subject = contact.Subject;
@@ -151,11 +150,6 @@ namespace JobPostingProject.Controllers
                 {
                     return View();
                 }
-            }
-            catch
-            {
-
-            }
             //ViewBag.Message = "Your message has been sent successfully!";
             return View();
         }
