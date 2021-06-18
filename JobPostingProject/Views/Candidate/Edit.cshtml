@@ -71,35 +71,42 @@
                 </div>
             </div>
             @*-----------------------------------------------------------------------------------------------------------------*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="PhotoFileName" accept="image/*" />
-                    @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
-                    @*@Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })*@
-                </div>
-            </div>
+            <div class="row">
+                <div class="col-md">
+                    <div class="form-group ">
+                        @Html.LabelFor(m => m.Cv, new { @class = "col-md control-label" })
+                        <div class="col-md">
+                            <input type="file" class="form-control-file" name="CvFileName" accept="text/*" />
+                            @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CoverLetter, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="CoverLetterFileName" accept="text/*" />
-                    @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CoverLetter, new { @class = "col-md control-label" })
+                        <div class="col-md">
+                            <input type="file" class="form-control-file" name="CoverLetterFileName" accept="text/*" />
+                            @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                  
+                    <div class="form-group mt-2">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-primary" value="Register" />
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Cv, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="CvFileName" accept="text/*" />
-                    @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
-                </div>
-            </div>
-            @*-----------------------------------------------------------------------------------------------------------------*@
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="col-md">
+                    <div class="form-group ">
+                        Profile Photo
+                        <div class="col-md ">
+                            <div class="image-wrapper">
+                                <input type="file" class="image-uploader form-control-file" name="PhotoFileName" accept="image/*" />
+                                <img src="@Model.Photo" class="image-preview" alt="Default Image" />
+                                <span class="image-hint">Upload Your Image</span>
+                                @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

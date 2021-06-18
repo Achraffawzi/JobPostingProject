@@ -135,7 +135,7 @@ namespace JobPostingProject.Controllers
 
                 updatedUser.FirstName = model.FirstName;
                 updatedUser.LastName = model.LastName;
-
+                updatedUser.UserPhoto = imageData;
                 appDb.SaveChanges();
 
                 if (model.PhotoFileName != null)
