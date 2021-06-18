@@ -1,0 +1,66 @@
+﻿@model JobPostingProject.Models.Candidate
+
+@{
+    ViewBag.Title = "Candidate | " + Model.FirstName+" "+  Model.LastName;
+}
+
+<div class="profile py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="profile__left-showcase text-center">
+                    <img class="rounded-circle img-fluid d-block mx-auto mb-3" style="width: 250px; height: 250px;" src="@Url.Action("UserPhoto", "Admin",new { idUser= Model.CandidateSecondID} )" alt="" />
+                    <h5 class="font-weight-bold">
+                        <span>@Model.FirstName </span>
+                        <span>@Model.LastName </span>
+                    </h5>
+                    <h6 style="color: dimgray">@Model.DateOfBirth.ToString("dd/mm/yyyy")</h6>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="profile__right-showcase">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div>
+                                <h5>
+                                    @Html.DisplayNameFor(model => model.Address)
+                                </h5>
+                                <p class="right-showcase__info">
+                                    @Html.DisplayFor(model => model.Address)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div>
+                                <h5>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </h5>
+                                <p class="right-showcase__info">
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>
+                            @Html.DisplayNameFor(model => model.Bio)
+                        </h5>
+                        <p class="right-showcase__info">
+                            @*@Html.DisplayFor(model => model.Bio)*@
+                            @Html.Raw(HttpUtility.HtmlDecode(Model.Bio))
+                        </p>
+                    </div>
+                    <div>
+                        <h5>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </h5>
+                        <p class="right-showcase__info">
+                            @Html.DisplayFor(model => model.Email)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -59,7 +59,7 @@ namespace JobPostingProject.Controllers
 
         // POST: Company/Edit/5
         [HttpPost]
-        public ActionResult Edit(Company p_company)
+        public ActionResult Edit(CompanyEditViewModel p_company)
         {
             try
             {
@@ -105,6 +105,11 @@ namespace JobPostingProject.Controllers
 
                     updatedUser.FirstName = p_company.Name;
                     updatedUser.LastName = p_company.Name;
+
+                    if (p_company.LogoFileName != null)
+                    {
+                        updatedUser.UserPhoto = logoData;
+                    }
 
                     appDb.SaveChanges();
 

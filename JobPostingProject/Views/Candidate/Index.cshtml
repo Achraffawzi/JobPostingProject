@@ -15,7 +15,7 @@
                         <span>@Model.FirstName </span>
                         <span>@Model.LastName </span>
                     </h5>
-                    <h6 style="color: dimgray">@Model.DateOfBirth.ToString("dd/mm/yyyy")</h6>
+                    <h6 style="color: dimgray">@Model.DateOfBirth.ToString("dd/MM/yyyy")</h6>
                 </div>
             </div>
             <div class="col-lg-7">
@@ -65,8 +65,8 @@
     </div>
 </div>
 
-<p>
-    @Html.ActionLink("Edit profile", "Edit", new { id = Model.CandidateID }, new { @class = "btn btn-primary" })
+<p class="container">
+    @Html.ActionLink("Edit profile", "Edit", new { idUser = Model.CandidateID }, new { @class = "btn btn-primary" })
 </p>
 
 @section profileIndex {

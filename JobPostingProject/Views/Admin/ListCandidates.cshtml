@@ -1,0 +1,216 @@
+﻿@model IEnumerable<JobPostingProject.Models.Candidate>
+
+@{
+    ViewBag.Title = "ListCandidates";
+}
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper" style="margin-top: -3rem;">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Hire Me</div>
+            </a>
+
+
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCompanies","Admin")">
+                    <i class="fas fa-building"></i>
+                    <span>Comapnies</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCandidates","Admin")">
+                    <i class="fas fa-user"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCategories","Admin")">
+                    <i class="fas fa-certificate"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid"  style="padding-top:2rem !important">
+
+                    <!-- Page Heading -->
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">List Of Candidates</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="font-size:14px" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                First Name
+                                            </th>
+                                            <th>
+                                                Last Name
+                                            </th>
+                                            <th>
+                                                Date Of Birth
+                                            </th>
+                                            <th>
+                                                Address
+                                            </th>
+                                            <th>
+                                                Phone Number
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Cv
+                                            </th>
+                                            <th>
+                                                Cover Letter
+                                            </th>
+
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    @*<tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Office</th>
+                                                <th>Age</th>
+                                                <th>Start date</th>
+                                                <th>Salary</th>
+                                            </tr>
+                                        </tfoot>*@
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.LastName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DateOfBirth).ToString().Split(' ')[0]
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Address)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        if (item.Cv != null)
+                                                        {
+                                                            @Html.ActionLink("Download CV", "DownloadFile", new { path = item.Cv }, new { @class = "text-decoration-none" });
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>unavailable</span>
+                                                        }
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        if (item.CoverLetter != null)
+                                                        {
+                                                            @Html.ActionLink("Download Cover Letter", "DownloadFile", new { path = item.CoverLetter }, new { @class = "text-decoration-none" });
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>unavailable</span>
+                                                        }
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModel">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Candidate","Admin",new {idUser=item.CandidateSecondID })" class="btn btn-success btn-circle btn-sm">
+                                                        <i class="fas fa-info"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">Ready to Leave?</h5>
+                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">Do you wanna delete this record ?</div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                                            <a class="btn btn-primary" href="@Url.Action("DeleteCandidate","Admin",new { id=item.CandidateID })">Yes</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+
+
+</body>
+

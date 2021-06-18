@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using JobPostingProject.Models;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Mail;
+using System.Net;
 
 namespace JobPostingProject.Controllers
 {
@@ -21,6 +23,39 @@ namespace JobPostingProject.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext appDbContext;
         private JobPostingDBEntities1 db;
+
+        // Sending new password through Gmail
+        public ActionResult SendNewPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendNewPassword(ForgotPasswordVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var mail = new MailMessage();
+                var loginInfo = new NetworkCredential("achrafawzi2000@gmail.com", "Lufthansa224$");
+                mail.From = new MailAddress(model.Email);
+                mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
+                mail.Subject = "Password reinitialisation";
+                Random r = new Random();
+                int code = r.Next(1000, 9999);
+                mail.Body = "Your new password is : " + code;
+
+                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = loginInfo;
+                smtpClient.Send(mail);
+            }
+            else
+            {
+                return View();
+            }
+            return View();
+        }
 
         public AccountController()
         {
@@ -591,7 +626,7 @@ namespace JobPostingProject.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
+        public ActionResult ForgotPasswordAsp()
         {
             return View();
         }
@@ -601,7 +636,7 @@ namespace JobPostingProject.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPasswordAsp(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {

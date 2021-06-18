@@ -187,6 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Classes\AuthorizeCreateAnnouncement.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\ApplicationBaseController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -228,7 +229,9 @@
     <Compile Include="Models\Company.cs">
       <DependentUpon>JobPostingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompanyEditViewModel.cs" />
     <Compile Include="Models\ContactsViewModel.cs" />
+    <Compile Include="Models\ForgotPasswordVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JobPostingModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -256,6 +259,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Admin\sb-admin-2.css" />
+    <Content Include="Content\Admin\sb-admin-2.min.css" />
     <Content Include="Content\Announcement\AnnouncementIndex.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -477,6 +482,12 @@
     <Content Include="Views\Announcement\ApplicantsForAnnouncement.cshtml" />
     <Content Include="Views\Announcement\InitialIndex.cshtml" />
     <Content Include="Views\Home\SendEmail.cshtml" />
+    <Content Include="Views\Admin\Candidate.cshtml" />
+    <Content Include="Views\Admin\Company.cshtml" />
+    <Content Include="Views\Admin\ListCandidates.cshtml" />
+    <Content Include="Views\Admin\ListCategories.cshtml" />
+    <Content Include="Views\Admin\ListCompanies.cshtml" />
+    <Content Include="Views\Account\SendNewPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

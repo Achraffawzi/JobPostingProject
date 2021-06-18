@@ -1,0 +1,211 @@
+﻿@model IEnumerable<JobPostingProject.Models.Company>
+
+@{
+    ViewBag.Title = "List Companies";
+}
+
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper" style="margin-top: -3rem;">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Hire Me</div>
+            </a>
+
+
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCompanies","Admin")">
+                    <i class="fas fa-building"></i>
+                    <span>Comapnies</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCandidates","Admin")">
+                    <i class="fas fa-user"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("ListCategories","Admin")">
+                    <i class="fas fa-certificate"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid" style="padding-top:2rem !important">
+
+                    <!-- Page Heading -->
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">List Of Companies</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Company ID
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Name)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Address)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Email)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.City)
+                                            </th>
+                                            <th>
+                                                Phone Number
+                                            </th>
+
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    @*<tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot>*@
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CompanySecondID)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Address)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.City)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                                </td>
+
+                                                <td>
+                                                    <a class="btn btn-danger btn-circle btn-sm" href="#" data-toggle="modal" data-target="#deleteModel">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                    <a href="@Url.Action("Company","Admin",new {idUser=item.CompanySecondID })" class="btn btn-success btn-circle btn-sm">
+                                                        <i class="fas fa-info"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">Ready to Leave?</h5>
+                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">Do you wanna delete this record ?</div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                                            <a class="btn btn-primary" href="@Url.Action("DeleteCompany","Admin",new { id=item.CompanyID })">Yes</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+ 
+
+   
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

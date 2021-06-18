@@ -41,13 +41,17 @@
                             </div>
                         </div>
                         <p>
+                            Forgot password?
+                            @Html.ActionLink("click here", "SendNewPassword", "Account", null, new { @class = "text-decoration-none" })
+                        </p>
+                        <p>
                             Don't have an account?
                             @Html.ActionLink("Register here!", "Register", null, new { @class = "text-decoration-none" })
                         </p>
                         @* Activez ceci une fois que vous avez activé la confirmation du compte pour la fonctionnalité de réinitialisation du mot de passe
-                            <p>
-                                @Html.ActionLink("Vous avez oublié votre mot de passe ?", "ForgotPassword")
-                            </p>*@
+            <p>
+                @Html.ActionLink("Vous avez oublié votre mot de passe ?", "ForgotPassword")
+            </p>*@
                     }
                 </section>
             </div>
