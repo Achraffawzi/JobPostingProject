@@ -12,77 +12,82 @@
     {
         @Html.AntiForgeryToken()
         @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
-        <div class="row">
+        <div class="row flex-wrap-reverse">
 
-            <div class="form-group col-md">
-                @*@Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })*@
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
-                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group col-md">
-                <div class="col-md">
-                    <input type="file" class="form-control" accept="image/*" name="LogoFileName" id="Logo" />
-                    @*@Html.TextBoxFor(m => m.Logo, new { @class="form-control", type = "file" })*@
-                    @Html.ValidationMessage("Logo", "", new { @class = "text-danger" })
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md">
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.Adresse, new { @class = "form-control", placeholder = "Address" })
-                    @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group col-md">
-                <div class="col-md">
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
-                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md">
-                <div class="col-md-6">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "PhoneNumber" })
-                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md">
-                @Html.TextAreaFor(model => model.Description, new { @class = "ckeditor", placeholder = "Description" })
-                @*@Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "height:230px", placeholder = "Description" })*@
-                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })*@
+                    <div class="col-md">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.TextBoxFor(m => m.Adresse, new { @class = "form-control", placeholder = "Address" })
+                        @Html.ValidationMessageFor(m => m.Adresse, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+                        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "PhoneNumber" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "ckeditor", placeholder = "Description" })
+                        @*@Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "height:230px", placeholder = "Description" })*@
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary" value="Register" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-group ">
+                    <div class="col-md ">
+                        <div class="image-wrapper">
+                            <input type="file" class="image-uploader form-control-file"  name="LogoFileName" id="Logo" accept="image/*" />
+                            <img src="~/Images/UserDefaultImage/defaultImage.jpg" class="image-preview" alt="Default Image" />
+                            <span class="image-hint">Upload Your Logo</span>
+                            @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+       
 
-        <div class="form-group">
-            <div class="col-md-6">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
-            </div>
-        </div>
-        <div class="form-group mt-2">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-primary" value="Register" />
-            </div>
-        </div>}
+        
+
+       }
     <div class="form-group mt-2">
         <div class="col-md-offset-2 col-md-10">
             <span>Are you a Candidate?</span>  <a href="@Url.Content("~/Account/Register")" class="text-primary">Register Here</a>
@@ -96,5 +101,26 @@
         // Replace the <textarea id="editor1"> with a CKEditor 4
         // instance, using default configuration.
         CKEDITOR.replace('Description');
+
+
+        const imageUploader = document.querySelector(".image-uploader");
+        const imagePreview = document.querySelector(".image-preview");
+
+        imageUploader.addEventListener('change', (e) => {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+
+            // NOTE: If an image SELECTED DO this
+            if (file) {
+                reader.readAsDataURL(file);
+
+
+            }
+            // NOTE: Set The Source / 'src' tag  of image
+            reader.addEventListener('load', function () {
+                console.log(reader.result);
+                imagePreview.setAttribute('src', reader.result);
+            });
+        });
     </script>
 }

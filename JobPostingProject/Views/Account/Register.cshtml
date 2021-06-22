@@ -101,47 +101,59 @@
 
 
 
-        <div class="form-group ">
-            @Html.LabelFor(m => m.Photo, new { @class = "col-md control-label" })
-            <div class="col-md-6">
-                <input type="file" class="form-control-file" name="PhotoFileName" accept="image/*" />
-                @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md">
+                <div class="form-group ">
+                    @Html.LabelFor(m => m.CV, new { @class = "col-md control-label" })
+                    <div class="col-md">
+                        <input type="file" class="form-control-file" name="CvFileName" accept="text/*" />
+                        @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CoverLetter, new { @class = "col-md control-label" })
+                    <div class="col-md">
+                        <input type="file" class="form-control-file" name="CoverLetterFileName" accept="text/*" />
+                        @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.Password, new { @class = "col-md control-label" })*@
+                    <div class="col-md">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md control-label" })*@
+                    <div class="col-md">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary" value="Register" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group ">
-            @Html.LabelFor(m => m.CV, new { @class = "col-md control-label" })
-            <div class="col-md-6">
-                <input type="file" class="form-control-file" name="CvFileName" accept="text/*" />
-                @Html.ValidationMessage("CvFile", "", new { @class = "text-danger" })
+            <div class="col-md">
+                <div class="form-group ">
+                    Profile Photo
+                    <div class="col-md ">
+                        <div class="image-wrapper">
+                            <input type="file" class="image-uploader form-control-file" name="PhotoFileName" accept="image/*" />
+                            <img src="~/Images/UserDefaultImage/defaultImage.jpg" class="image-preview" alt="Default Image" />
+                            <span class="image-hint">Upload Your Image</span>
+                            @Html.ValidationMessage("PhotoFile", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.CoverLetter, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
-                <input type="file" class="form-control-file" name="CoverLetterFileName" accept="text/*" />
-                @Html.ValidationMessage("CoverLettreFile", "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @*@Html.LabelFor(m => m.Password, new { @class = "col-md control-label" })*@
-            <div class="col-md-6">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @*@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md control-label" })*@
-            <div class="col-md-6">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
-            </div>
-        </div>
-        <div class="form-group mt-2">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-primary" value="Register" />
-            </div>
-        </div>
+        
     }
 
     <div class="form-group mt-2">
@@ -163,5 +175,26 @@
             localStorage.setItem("firstName", $("#fName").val());
             localStorage.setItem("lastName", $("#lName").val());
         })
+
+
+        const imageUploader = document.querySelector(".image-uploader");
+        const imagePreview = document.querySelector(".image-preview");
+
+        imageUploader.addEventListener('change',  (e)=> {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+
+            // NOTE: If an image SELECTED DO this
+            if (file) {
+                reader.readAsDataURL(file);
+
+              
+            } 
+            // NOTE: Set The Source / 'src' tag  of image
+            reader.addEventListener('load', function () {
+                console.log(reader.result);
+                imagePreview.setAttribute('src', reader.result);
+            });
+        });
     </script>
 }

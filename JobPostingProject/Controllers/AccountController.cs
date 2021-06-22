@@ -250,8 +250,16 @@ namespace JobPostingProject.Controllers
                         Email = model.Email,
                         Password = model.Password
                     };
-                    db.Companies.Add(newCompany);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Companies.Add(newCompany);
+                        db.SaveChanges();
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
 
                     // Pour plus d'informations sur l'activation de la confirmation de compte et de la réinitialisation de mot de passe, visitez https://go.microsoft.com/fwlink/?LinkID=320771
                     // Envoyer un message électronique avec ce lien

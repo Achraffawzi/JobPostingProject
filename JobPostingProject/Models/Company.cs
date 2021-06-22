@@ -34,6 +34,7 @@ namespace JobPostingProject.Models
         public string City { get; set; }
         public string PhoneNumber { get; set; }
         public string CompanySecondID { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase LogoFileName { get; set; }
 
