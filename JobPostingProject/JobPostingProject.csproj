@@ -198,17 +198,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104261446291_InitialCreate.cs" />
-    <Compile Include="Migrations\202104261446291_InitialCreate.Designer.cs">
-      <DependentUpon>202104261446291_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104261525349_Edit_Aspnetuser.cs" />
-    <Compile Include="Migrations\202104261525349_Edit_Aspnetuser.Designer.cs">
-      <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104280214476_Add UserPhoroColumn.cs" />
-    <Compile Include="Migrations\202104280214476_Add UserPhoroColumn.Designer.cs">
-      <DependentUpon>202104280214476_Add UserPhoroColumn.cs</DependentUpon>
+    <Compile Include="Migrations\202106231255010_init.cs" />
+    <Compile Include="Migrations\202106231255010_init.Designer.cs">
+      <DependentUpon>202106231255010_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -508,14 +500,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104261446291_InitialCreate.resx">
-      <DependentUpon>202104261446291_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104261525349_Edit_Aspnetuser.resx">
-      <DependentUpon>202104261525349_Edit_Aspnetuser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104280214476_Add UserPhoroColumn.resx">
-      <DependentUpon>202104280214476_Add UserPhoroColumn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202106231255010_init.resx">
+      <DependentUpon>202106231255010_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

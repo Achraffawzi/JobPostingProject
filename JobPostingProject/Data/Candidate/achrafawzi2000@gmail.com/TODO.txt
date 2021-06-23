@@ -1,0 +1,13 @@
+add comments
+
+rapport => PK sqlserver ???
+https://www.tek-tools.com/database/sql-server-best-practices-and-tools
+
+====================== JOB
+remember me
+$("#CategoryType").change(function () { => on ddl change => job searrch
+fontawesome
+contact us
+when not logged in and trynna apply => does nothing => add id user.identity 
+send viewModel to view with company data to auto fill all inputs
+alert in candidate => change 

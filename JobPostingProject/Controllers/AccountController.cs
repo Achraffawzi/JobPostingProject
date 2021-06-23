@@ -16,7 +16,6 @@ using System.Net;
 
 namespace JobPostingProject.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -33,24 +32,59 @@ namespace JobPostingProject.Controllers
         [HttpPost]
         public ActionResult SendNewPassword(ForgotPasswordVM model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var mail = new MailMessage();
-                var loginInfo = new NetworkCredential("achrafawzi2000@gmail.com", "Lufthansa224$");
-                mail.From = new MailAddress(model.Email);
-                mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
-                mail.Subject = "Password reinitialisation";
-                Random r = new Random();
-                int code = r.Next(1000, 9999);
-                mail.Body = "Your new password is : " + code;
+                if (ModelState.IsValid)
+                {
+                    var mail = new MailMessage();
+                    var loginInfo = new NetworkCredential("achrafawzi2000@gmail.com", "Lufthansa224$");
+                    mail.From = new MailAddress(model.Email);
+                    mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
+                    mail.Subject = "Password reinitialisation";
+                    Random r = new Random();
+                    int code = r.Next(1000, 9999);
+                    mail.IsBodyHtml = true;
+                    mail.Body = "Your new password is : " + "<b>" + code + "</b>" + "<br>" + "Use it to sign in";
 
-                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = loginInfo;
-                smtpClient.Send(mail);
+                    var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Credentials = loginInfo;
+                    smtpClient.Send(mail);
+
+                    // update Aspnetuser
+                    var user = UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+                    var newHashedPassword = UserManager.PasswordHasher.HashPassword(code.ToString());
+                    user.PasswordHash = newHashedPassword;
+                    UserManager.Update(user);
+                    appDbContext.SaveChanges();
+                    // Change password to our DB
+                    Company company = this.db.Companies.Where(c => c.Email == model.Email).FirstOrDefault();
+                    if (company != null)
+                    {
+                        company.Password = code.ToString();
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        Candidate candidate = this.db.Candidates.Where(c => c.Email == model.Email).FirstOrDefault();
+                        if (candidate != null)
+                        {
+                            candidate.Password = code.ToString();
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            return View();
+                        }
+                    }
+                }
+                else
+                {
+                    return View();
+                }
             }
-            else
+            catch
             {
                 return View();
             }
