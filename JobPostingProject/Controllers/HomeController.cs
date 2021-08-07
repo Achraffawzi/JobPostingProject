@@ -134,7 +134,7 @@ namespace JobPostingProject.Controllers
                 if(ModelState.IsValid)
                 {
                     var mail = new MailMessage();
-                    var loginInfo = new NetworkCredential("achrafawzi2000@gmail.com", "Lufthansa224$");
+                    var loginInfo = new NetworkCredential("", "");
                     mail.From = new MailAddress(contact.Email);
                     mail.To.Add(new MailAddress("achrafawzi2000@gmail.com"));
                     mail.Subject = contact.Subject;
